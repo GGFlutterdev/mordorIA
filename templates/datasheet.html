@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %} uAIò Datasheet {% endblock %}
+
+{% block content %}
+
+<h1>Dati del Dataset</h1>
+
+<!-- Crea un canvas per il grafico -->
+<canvas id="myChart" width="400" height="400"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Recupera i dati del grafico dal contesto del template
+    var log_ranks = {{ plot_data.log_ranks | tojson }};
+    var log_frequencies = {{ plot_data.log_frequencies | tojson }};
+
+    // Crea il grafico utilizzando Chart.js
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: log_ranks,
+            datasets: [{
+                label: 'Grafico Rank-Frequenza delle Parole nel Corpus',
+                data: log_frequencies,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'linear',  // Usiamo un tipo lineare per l'asse x
+                    ticks: {
+                        stepSize: 1  // Imposta la distanza tra i punti sull'asse x
+                    },
+                    grid: {
+                        display: true  // Abilita la griglia sull'asse x
+                    },
+                    title: {
+                        display: true,
+                        text: 'Rank (log)'
+                    }
+                },
+                y: {
+                    type: 'linear',  // Usiamo un tipo lineare per l'asse y
+                    ticks: {
+                        stepSize: 1  // Imposta la distanza tra i punti sull'asse y
+                    },
+                    grid: {
+                        display: true  // Abilita la griglia sull'asse y
+                    },
+                    title: {
+                        display: true,
+                        text: 'Frequenza (log)'
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}
