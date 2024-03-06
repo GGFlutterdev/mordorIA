@@ -12,21 +12,21 @@ app.tokenizer = ByteLevelBPETokenizer()
 
 # Directory contenente i file di testo per l'addestramento del token learner
 corpus_dir = './lotr_hp_corpus'
-app.corpus = ''
+app.corpora = []
 
 # Funzione per leggere i file di testo nel corpus e aggiornare il token learner
 def train_token_learner(tokenizer, corpus_dir):
-    
+    app.corpora = []  # Lista per mantenere il testo di ciascun file
     # Itera attraverso i file di testo nel corpus
     for filename in os.listdir(corpus_dir):
         if filename.endswith('.txt'):
             file_path = os.path.join(corpus_dir, filename)
             # Leggi il contenuto del file di testo
             with open(file_path, 'r', encoding='utf-8') as file:
-                text = file.read()
-                app.corpus += text
-                # Aggiorna il token learner con il testo del file
-    tokenizer.train_from_iterator([app.corpus])
+                corpus = file.read()
+                app.corpora.append(corpus)  # Aggiungi il testo alla lista
+    # Aggiorna il token learner con il testo dei file
+    tokenizer.train_from_iterator(app.corpora)
 
 # Addestra il token learner con il corpus di testo
 train_token_learner(app.tokenizer, corpus_dir)

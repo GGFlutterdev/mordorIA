@@ -4,16 +4,29 @@ from math import log
 
 datasheet_bp = Blueprint('datasheet_bp', __name__)
 
-def create_plot_data(tokenizer, corpus):
-    # Tokenizza il corpus di testo con il tokenizer
-    encoded_corpus = tokenizer.encode(corpus)
+from collections import Counter
+from math import log
 
-    # Estrai i token dal corpus tokenizzato
-    tokens = encoded_corpus.tokens
-    cleaned_tokens = [token.replace('Ġ', '') for token in tokens]
-
-    # Calcola la frequenza delle parole
-    word_freq = Counter(cleaned_tokens)
+def create_plot_data(tokenizer, corpora):
+    # Inizializza le liste per i risultati complessivi
+    all_tokens = []
+    all_cleaned_tokens = []
+    
+    # Elabora ciascun testo nella lista di corpora
+    for corpus in corpora:
+        # Tokenizza il corpus di testo con il tokenizer
+        encoded_corpus = tokenizer.encode(corpus)
+        
+        # Estrai i token dal corpus tokenizzato
+        tokens = encoded_corpus.tokens
+        all_tokens.extend(tokens)
+        
+        # Rimuovi il prefisso 'Ġ' dai token e aggiungi alla lista di token puliti
+        cleaned_tokens = [token.replace('Ġ', '') for token in tokens]
+        all_cleaned_tokens.extend(cleaned_tokens)
+    
+    # Calcola la frequenza delle parole per l'intero corpus
+    word_freq = Counter(all_cleaned_tokens)
 
     # Ordina le parole per frequenza e ottieni i loro rank
     sorted_words = sorted(word_freq.items(), key=lambda x: x[1], reverse=True)
@@ -33,13 +46,14 @@ def create_plot_data(tokenizer, corpus):
         'word_names': words  # Aggiungi i nomi delle parole ai dati del grafico
     }
 
+
 @datasheet_bp.route('/datasheet')
 def datasheet():
     tokenizer = current_app.tokenizer
-    corpus = current_app.corpus
+    corpora = current_app.corpora
 
     # Ottieni i dati del grafico
-    plot_data = create_plot_data(tokenizer, corpus)
+    plot_data = create_plot_data(tokenizer, corpora)
     
 
     # Restituisci il template HTML con i dati del grafico
