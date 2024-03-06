@@ -1,21 +1,37 @@
 {% extends 'base.html' %}
 
-{% block title %} uAIò Datasheet {% endblock %}
+{% block title %} Corpus Datasheet {% endblock %}
 
 {% block content %}
 
-<h1>Dati del Dataset</h1>
+<h1>Corpus Datasheet</h1>
+
+<!-- Inserisci il datasheet del corpus -->
+<div>
+    <ul>
+        <li><strong>Descrizione del Corpus:</strong> Il corpus comprende l'intera collezione di testi delle serie "Harry Potter" di J.K. Rowling e "Il Signore degli Anelli" di J.R.R. Tolkien, inclusi "Lo Hobbit" e "Il Silmarillion".</li>
+        <li><strong>Dimensione del Corpus:</strong> Sette libri della serie "Harry Potter" e la trilogia de "Il Signore degli Anelli", inclusi "Lo Hobbit" e "Il Silmarillion".</li>
+        <li><strong>Processamento del Testo:</strong> I testi sono forniti in formato di testo semplice, suddivisi in file separati o sezioni corrispondenti a ciascun libro o capitolo.</li>
+        <li><strong>Metadati:</strong> Le informazioni sui libri includono il titolo, l'autore, il numero di pagine, la data di pubblicazione e il genere letterario.</li>
+        <li><strong>Licenza e Restrizioni:</strong> Il corpus è disponibile su Kaggle al seguente link: <a href="https://www.kaggle.com/datasets/prashantkarwasra/books-dataset-text-generation" target="_blank">Books_Dataset_text_generation</a>. Si prega di fare riferimento alla licenza indicata su Kaggle per le restrizioni d'uso. Per evitare problemi di copyright, il tool non verrà utilizzato in alcun modo per lucrare ma è esclusivamente a scopo didattico.</li>
+        <li><strong>Struttura del Corpus:</strong> I testi sono organizzati in file separati per ciascun libro o capitolo.</li>
+        <li><strong>Annotazioni Manuali:</strong> Non sono state applicate annotazioni manuali al corpus.</li>
+        <li><strong>Risorse Aggiuntive:</strong> Il corpus non include risorse aggiuntive come dizionari o tassonomie.</li>
+        <li><strong>Riferimenti Bibliografici:</strong> Il corpus è stato creato utilizzando i testi delle serie "Harry Potter" e "Il Signore degli Anelli". Per ulteriori informazioni sull'opera originale, fare riferimento ai libri di J.K. Rowling e J.R.R. Tolkien.</li>
+    </ul>
+</div>
+
+<h2>Zipf's Law check</h2>
 
 <!-- Crea un canvas per il grafico -->
 <canvas id="myChart" width="400" height="400"></canvas>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Recupera i dati del grafico dal contesto del template
+    var word_names = {{ plot_data.word_names | tojson }}; // Aggiungi i nomi delle parole
     var log_ranks = {{ plot_data.log_ranks | tojson }};
     var log_frequencies = {{ plot_data.log_frequencies | tojson }};
 
-    // Crea il grafico utilizzando Chart.js
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
@@ -32,12 +48,12 @@
         options: {
             scales: {
                 x: {
-                    type: 'linear',  // Usiamo un tipo lineare per l'asse x
+                    type: 'linear',
                     ticks: {
-                        stepSize: 1  // Imposta la distanza tra i punti sull'asse x
+                        stepSize: 1
                     },
                     grid: {
-                        display: true  // Abilita la griglia sull'asse x
+                        display: true
                     },
                     title: {
                         display: true,
@@ -45,21 +61,32 @@
                     }
                 },
                 y: {
-                    type: 'linear',  // Usiamo un tipo lineare per l'asse y
+                    type: 'linear',
                     ticks: {
-                        stepSize: 1  // Imposta la distanza tra i punti sull'asse y
+                        stepSize: 1
                     },
                     grid: {
-                        display: true  // Abilita la griglia sull'asse y
+                        display: true
                     },
                     title: {
                         display: true,
                         text: 'Frequenza (log)'
                     }
                 }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            var index = context.dataIndex;
+                            return word_names[index] + ' : ' + context.parsed.y;
+                        }
+                    }
+                }
             }
         }
     });
 </script>
+
 
 {% endblock %}
