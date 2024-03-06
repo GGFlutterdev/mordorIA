@@ -1,0 +1,47 @@
+/* Reset some default styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Style for the text input */
+  input[type="text"] {
+    width: 300px; /* Adjust as needed */
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none; /* Remove default focus outline */
+  }
+  
+  /* Style for the placeholder text */
+  input[type="text"]::placeholder {
+    color: #999;
+  }
+  
+  /* Style for the input when it's focused */
+  input[type="text"]:focus {
+    border-color: #007bff; /* Change to your desired focus color */
+  }
+  
+  /* Style for the submit button */
+  input[type="submit"] {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff; /* Change to your desired button color */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* Style for the label */
+  label {
+    margin: 10px;
+    font-size: 16px;
+    color: #333; /* Adjust label text color as needed */
+  }
+  

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %} uAIò {% endblock %}
+
+{% block content %}
+
+<form id="myForm" action="/submit" method="post">
+    <input type="text" id="user_input" name="user_input" placeholder="Inserisci il testo">
+    <input type="submit" id="submitBtn" value="Submit">
+</form>
+
+
+<div id="tokens">
+    <!-- Mostra il messaggio qui -->
+    {{ tokens }}
+</div>
+
+{% endblock %}
