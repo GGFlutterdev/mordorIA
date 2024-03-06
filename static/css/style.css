@@ -1,47 +1,135 @@
 /* Reset some default styles */
 body, html {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Style for the text input */
-  input[type="text"] {
-    width: 300px; /* Adjust as needed */
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    outline: none; /* Remove default focus outline */
-  }
-  
-  /* Style for the placeholder text */
-  input[type="text"]::placeholder {
-    color: #999;
-  }
-  
-  /* Style for the input when it's focused */
-  input[type="text"]:focus {
-    border-color: #007bff; /* Change to your desired focus color */
-  }
-  
-  /* Style for the submit button */
-  input[type="submit"] {
-    padding: 10px 20px;
-    margin: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff; /* Change to your desired button color */
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  /* Style for the label */
-  label {
-    margin: 10px;
-    font-size: 16px;
-    color: #333; /* Adjust label text color as needed */
-  }
-  
+  margin: 0;
+  padding: 0;
+  font-family: 'Times New Roman', Times, serif; /* Cambia il font per un tocco più fantasy */
+  background-color: #f7f3eb; /* Cambia il colore di sfondo */
+}
+
+/* Style for the content container */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Aggiunge un'ombra sottile */
+}
+
+/* Style for h1 */
+h1 {
+  font-size: 36px; /* Aumenta la dimensione del font */
+  color: #5c5c5c; /* Cambia il colore del titolo */
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); /* Aggiunge un'ombra al testo */
+}
+
+/* Style for h2 */
+h2 {
+  font-size: 28px; /* Aumenta la dimensione del font */
+  color: #7b6c5d; /* Cambia il colore del titolo */
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); /* Aggiunge un'ombra al testo */
+}
+
+/* Style for unordered lists */
+ul {
+  margin-bottom: 20px;
+}
+
+/* Style for list items */
+li {
+  font-size: 18px; /* Aumenta la dimensione del font */
+  color: #7b6c5d; /* Cambia il colore del testo */
+  margin-bottom: 5px;
+}
+
+/* Style for div elements */
+div {
+  margin-bottom: 20px;
+}
+
+/* Style for the form */
+/* Style for the form */
+form {
+  margin-top: 20px;
+  display: flex; /* Utilizza un layout flessibile */
+  justify-content: center; /* Allinea gli elementi al centro orizzontalmente */
+  align-items: center; /* Allinea gli elementi al centro verticalmente */
+}
+
+/* Style for the text input */
+input[type="text"] {
+  width: calc(70% - 10px); /* Larghezza dell'input text */
+  padding: 12px; /* Aumenta il padding */
+  margin-right: 10px; /* Aggiunge uno spazio tra l'input text e il pulsante submit */
+  border: 2px solid #7b6c5d; /* Cambia lo stile del bordo */
+  border-radius: 20px; /* Aumenta il raggio del bordo */
+  font-size: 20px; /* Aumenta la dimensione del font */
+  outline: none;
+}
+
+/* Style for the submit button */
+input[type="submit"] {
+  width: calc(30% - 10px); /* Larghezza del pulsante submit */
+  padding: 15px; /* Aumenta il padding */
+  border: none;
+  border-radius: 30px; /* Aumenta il raggio del bordo */
+  background-color: #9c8065; /* Cambia il colore di sfondo */
+  color: #fff; /* Cambia il colore del testo */
+  font-size: 20px; /* Dimensione del font */
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase; /* Converti il testo in maiuscolo */
+}
+
+
+/* Style for the placeholder text */
+input[type="text"]::placeholder {
+  color: #a9998d; /* Cambia il colore del testo del placeholder */
+}
+
+/* Style for the input when it's focused */
+input[type="text"]:focus {
+  border-color: #9c8065; /* Cambia il colore del bordo al focus */
+}
+
+/* Style for the label */
+label {
+  display: block;
+  font-size: 20px; /* Aumenta la dimensione del font */
+  color: #5c5c5c; /* Cambia il colore del testo */
+  margin-bottom: 10px;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: #9c8065; /* Colore di sfondo della navbar */
+  padding: 0 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center; /* Allinea gli elementi verticalmente */
+}
+
+.navbar-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-menu ul li {
+  display: inline;
+  margin-left: 20px; /* Aggiunge uno spazio tra i link */
+}
+
+.navbar-menu ul li a {
+  color: #fff; /* Colore del testo del link */
+  text-decoration: none;
+  font-size: 18px; /* Dimensione del testo del link */
+  transition: color 0.3s; /* Transizione del colore del link */
+}
+
+.navbar-menu ul li a:hover {
+  color: #c7d5e0; /* Colore del link al passaggio del mouse */
+}

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} uAIò {% endblock %}
+{% block title %} mordorIA {% endblock %}
 
 {% block content %}
 
@@ -9,10 +9,13 @@
     <input type="submit" id="submitBtn" value="Submit">
 </form>
 
-
+{% if tokens %}
+<h2>Token</h2>
 <div id="tokens">
     <!-- Mostra il messaggio qui -->
     {{ tokens }}
 </div>
+{% endif %}
+
 
 {% endblock %}
