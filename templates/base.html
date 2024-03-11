@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,28 +10,81 @@
     <title>{% block title %} {% endblock %}</title>
     <!-- Include custom favicon -->
     <link rel="icon" type="image/png" href="static/logo.png">
-  </head>
-  <body>
-    <nav class="navbar">
-      <div class="navbar-brand">
+</head>
+<body>
+<nav class="navbar">
+    <div class="navbar-brand">
         <a href="/">
-          <img src="static/logo.png" alt="mordorIA Logo" height="90" width="90">
+            <img src="static/logo.png" alt="mordorIA Logo" height="90" width="90">
         </a>
-      </div>
-      <div class="navbar-menu">
-        <ul>
-          <li><a href="/datasheet">Corpus Datasheet</a></li>
-        </ul>
-      </div>
-    </nav>
-    <div class="container">
-        {% block content %} {% endblock %}
     </div>
+    <div class="navbar-menu">
+        <ul>
+            <li><a href="/datasheet">Corpus Datasheet</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    {% block content %} {% endblock %}
+</div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Seleziona gli elementi h2 e il contenuto da mostrare/nascondere
+        arrowStopwordsRemoved
+        var toggleTokens = document.getElementById('toggleTokens');
+        var tokensContent = document.getElementById('tokensContent');
+        var arrowTokens = document.getElementById('arrowTokens');
+
+        var toggleStopwordsRemoved = document.getElementById('toggleStopwordsRemoved');
+        var stopwordsRemovedContent = document.getElementById('stopwordsRemovedContent');
+        var arrowStopwordsRemoved = document.getElementById('arrowStopwordsRemoved');
+
+        var toggleStopwords = document.getElementById('toggleStopwords');
+        var stopwordsContent = document.getElementById('stopwordsContent');
+        var arrowStopwords = document.getElementById('arrowStopwords');
+
+        var toggleLemmatization = document.getElementById('toggleLemmatization');
+        var lemmatizationContent = document.getElementById('lemmatizationContent');
+        var arrowLemmatization = document.getElementById('arrowLemmatization');
+        
+
+        // Aggiungi un gestore di eventi per il clic sugli elementi h2
+        toggleTokens.addEventListener('click', function() {
+            toggleContent(tokensContent, arrowTokens);
+        });
+
+        toggleStopwordsRemoved.addEventListener('click', function() {
+            toggleContent(stopwordsRemovedContent, arrowStopwordsRemoved);
+        });
+
+        toggleStopwords.addEventListener('click', function() {
+            toggleContent(stopwordsContent, arrowStopwords);
+        });
+
+        toggleLemmatization.addEventListener('click', function() {
+            toggleContent(lemmatizationContent, arrowLemmatization);
+        });
+
+        // Funzione per mostrare/nascondere il contenuto e aggiornare la freccia
+        function toggleContent(content, arrow) {
+            // Se il contenuto è visibile, nascondilo, altrimenti mostralo
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                arrow.innerHTML = '▲'; // Cambia la freccia verso l'alto
+            } else {
+                content.style.display = 'none';
+                arrow.innerHTML = '▼'; // Cambia la freccia verso il basso
+            }
+        }
+    });
+</script>
+{% endblock %}
+</body>
 </html>

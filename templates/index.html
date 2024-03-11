@@ -5,17 +5,30 @@
 {% block content %}
 
 <form id="myForm" action="/submit" method="post">
-    <input type="text" id="user_input" name="user_input" placeholder="Inserisci il testo">
+    <input type="text" id="user_input" name="user_input" placeholder="What should I generate?">
     <input type="submit" id="submitBtn" value="Submit">
 </form>
 
 {% if tokens %}
-<h2>Token</h2>
-<div id="tokens">
-    <!-- Mostra il messaggio qui -->
+<h2 id="toggleTokens">Token <span id="arrowTokens">▼</span></h2>
+<div id="tokensContent" style="display: none;">
     {{ tokens }}
 </div>
-{% endif %}
 
+<h2 id="toggleStopwordsRemoved">Stopwords rimosse <span id="arrowStopwordsRemoved">▼</span></h2>
+<div id="stopwordsRemovedContent" style="display: none;">
+    {{ stopwords_removed }}
+</div>
+
+<h2 id="toggleStopwords">Token senza stopwords <span id="arrowStopwords">▼</span></h2>
+<div id="stopwordsContent" style="display: none;">
+    {{ tokens_no_stopwords }}
+</div>
+
+<h2 id="toggleLemmatization">Lemmatizzazione <span id="arrowLemmatization">▼</span></h2>
+<div id="lemmatizationContent" style="display: none;">
+    {{ lemmatized_text }}
+</div>
+{% endif %}
 
 {% endblock %}

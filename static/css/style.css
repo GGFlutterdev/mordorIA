@@ -133,3 +133,19 @@ label {
 .navbar-menu ul li a:hover {
   color: #c7d5e0; /* Colore del link al passaggio del mouse */
 }
+
+#toggleTokens, #arrowTokens {
+  cursor: pointer;
+}
+
+#toggleStopwordsRemoved, #arrowStopwordsRemoved {
+  cursor: pointer;
+}
+
+#toggleStopwords, #arrowStopwords {
+  cursor: pointer;
+}
+
+#toggleLemmatization, #arrowLemmatization {
+  cursor: pointer;
+}

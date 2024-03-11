@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request
 from tokenizers import ByteLevelBPETokenizer
 from datasheet import datasheet_bp
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+import nltk
 import os
 
 app = Flask(__name__)
@@ -13,6 +16,16 @@ app.tokenizer = ByteLevelBPETokenizer()
 # Directory contenente i file di testo per l'addestramento del token learner
 corpus_dir = './lotr_hp_corpus'
 app.corpora = []
+
+nltk.download('stopwords')
+
+# Lista delle stopwords nella lingua inglese
+stop_words = set(stopwords.words('english'))
+# Scarica il WordNet corpus per la lemmatizzazione delle parole
+nltk.download('wordnet')
+
+# Inizializza il lemmatizzatore
+lemmatizer = WordNetLemmatizer()
 
 # Funzione per leggere i file di testo nel corpus e aggiornare il token learner
 def train_token_learner(tokenizer, corpus_dir):
@@ -44,9 +57,21 @@ def submit():
         encoded_text = app.tokenizer.encode(user_input)
         # Restituisci i token al template HTML
         tokenized_text = encoded_text.tokens
-        cleaned_text = [token.replace('Ġ', '') for token in tokenized_text]
-        print(cleaned_text)
-        return render_template('index.html', tokens=cleaned_text)
+        # Rimozione spazi ed ultimo carattere
+        cleaned_text = [token.replace('Ġ', '') for token in tokenized_text if token.replace('Ġ', '')]
+        # Identificazione stopwords
+        stopwords_removed = [word for word in cleaned_text if word.lower() in stop_words]
+        # Rimozione delle stopwords
+        cleaned_text_no_stopwords = [word for word in cleaned_text if word.lower() not in stop_words]
+        # Lemmatizza il testo
+        lemmatized_text = [lemmatizer.lemmatize(word) for word in cleaned_text_no_stopwords]
+
+        return render_template('index.html',
+                               tokens=cleaned_text,
+                               tokens_no_stopwords = cleaned_text_no_stopwords,
+                               lemmatized_text = lemmatized_text,
+                               stopwords_removed = stopwords_removed
+                               )
 
 if __name__ == '__main__':
     app.run(debug=True)
