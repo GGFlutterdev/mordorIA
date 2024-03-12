@@ -37,7 +37,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Seleziona gli elementi h2 e il contenuto da mostrare/nascondere
-        arrowStopwordsRemoved
+
         var toggleTokens = document.getElementById('toggleTokens');
         var tokensContent = document.getElementById('tokensContent');
         var arrowTokens = document.getElementById('arrowTokens');
@@ -53,6 +53,10 @@
         var toggleLemmatization = document.getElementById('toggleLemmatization');
         var lemmatizationContent = document.getElementById('lemmatizationContent');
         var arrowLemmatization = document.getElementById('arrowLemmatization');
+
+        var toggleCorrectedTokens = document.getElementById('toggleCorrectedTokens');
+        var tokensCorrectedContent = document.getElementById('tokensCorrectedContent');
+        var arrowCorrectedTokens = document.getElementById('arrowCorrectedTokens');
         
 
         // Aggiungi un gestore di eventi per il clic sugli elementi h2
@@ -70,6 +74,10 @@
 
         toggleLemmatization.addEventListener('click', function() {
             toggleContent(lemmatizationContent, arrowLemmatization);
+        });
+
+        toggleCorrectedTokens.addEventListener('click', function() {
+            toggleContent(tokensCorrectedContent, arrowCorrectedTokens);
         });
 
         // Funzione per mostrare/nascondere il contenuto e aggiornare la freccia
