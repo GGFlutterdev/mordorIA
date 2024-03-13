@@ -3,8 +3,11 @@ from tokenizers import Tokenizer
 from datasheet import datasheet_bp
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import sent_tokenize
+from sentence import Sentence
 import editdistance
 import nltk
+import re
 
 app = Flask(__name__)
 
@@ -26,6 +29,13 @@ stop_words = set(stopwords.words('english'))
 
 # Inizializza il lemmatizzatore
 lemmatizer = WordNetLemmatizer()
+
+def remove_punctuation(sentence):
+    # Definisci un'espressione regolare per la punteggiatura di fine frase
+    punctuation_pattern = re.compile(r'[.!?,;:]')
+    # Rimuovi la punteggiatura di fine frase dalla frase
+    sentence_without_punctuation = punctuation_pattern.sub('', sentence)
+    return sentence_without_punctuation
 
 def find_correct_words(words_separated_by_space):
     # Lista per memorizzare le parole corrette
@@ -51,39 +61,55 @@ def find_correct_words(words_separated_by_space):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', sentence_results=[])
     
     
 @app.route('/submit', methods=['POST'])
 def submit():
     if request.method == 'POST':
+        sentence_results = []
         user_input = request.form['user_input']
 
-        encoded_text = app.tokenizer.encode(user_input)
-        tokenized_text = encoded_text.tokens
+        # Esegui la segmentazione delle frasi
+        sentences = sent_tokenize(user_input)
 
-        words_separed_by_space = user_input.split()
-        # Trova le parole corrette utilizzando la distanza di edit
-        correct_words = find_correct_words(words_separed_by_space)
-        correct_words_text = ' '.join(correct_words)
+        # Stampa le frasi
+        for sentence in sentences:
+            sentence_without_punctuation = remove_punctuation(sentence)
 
-        encoded_correct_text = app.tokenizer.encode(correct_words_text)
-        # Restituisci i token al template HTML
-        tokenized_correct_text = encoded_correct_text.tokens
-        # Identificazione stopwords
-        stopwords_removed = [word for word in tokenized_correct_text if word.lower() in stop_words]
-        # Rimozione delle stopwords
-        cleaned_text_no_stopwords = [word for word in tokenized_correct_text if word.lower() not in stop_words]
-        # Lemmatizza il testo
-        lemmatized_text = [lemmatizer.lemmatize(word) for word in cleaned_text_no_stopwords]
+            encoded_text = app.tokenizer.encode(sentence_without_punctuation)
+            tokenized_text = encoded_text.tokens
 
-        return render_template('index.html',
-                               tokens=tokenized_text,
-                               corrected_tokens = tokenized_correct_text,
-                               tokens_no_stopwords = cleaned_text_no_stopwords,
-                               lemmatized_text = lemmatized_text,
-                               stopwords_removed = stopwords_removed
-                               )
+            words_separated_by_space = sentence_without_punctuation.split()
+            # Trova le parole corrette utilizzando la distanza di edit
+            correct_words = find_correct_words(words_separated_by_space)
+            correct_words_text = ' '.join(correct_words)
+
+            encoded_correct_text = app.tokenizer.encode(correct_words_text)
+            # Restituisci i token al template HTML
+            tokenized_correct_text = encoded_correct_text.tokens
+            # Identificazione stopwords
+            stopwords_removed = [word for word in tokenized_correct_text if word.lower() in stop_words]
+            # Rimozione delle stopwords
+            cleaned_text_no_stopwords = [word for word in tokenized_correct_text if word.lower() not in stop_words]
+            # Lemmatizza il testo
+            lemmatized_text = [lemmatizer.lemmatize(word) for word in cleaned_text_no_stopwords]
+
+            result = Sentence(sentence=sentence_without_punctuation,
+                              tokens=tokenized_text,
+                              corrected_tokens=tokenized_correct_text,
+                              tokens_no_stopwords=cleaned_text_no_stopwords,
+                              lemmatized_text=lemmatized_text,
+                              stopwords_removed=stopwords_removed)
+            
+            # Aggiungi il risultato alla lista dei risultati delle frasi
+            sentence_results.append(result)
+
+            # Converti manualmente gli oggetti Sentence in dizionari
+            sentence_results_dict = [result.to_dict() for result in sentence_results]
+
+        return render_template('index.html', sentence_results=sentence_results_dict)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

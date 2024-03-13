@@ -6,34 +6,46 @@
 
 <form id="myForm" action="/submit" method="post">
     <input type="text" id="user_input" name="user_input" placeholder="What should I generate?">
-    <input type="submit" id="submitBtn" value="Submit">
+    <input type="submit" id="submitBtn" value="Generate">
 </form>
 
-{% if tokens %}
-<h2 id="toggleTokens">Token <span id="arrowTokens">▼</span></h2>
-<div id="tokensContent" style="display: none;">
-    {{ tokens }}
-</div>
+{% if sentence_results %}
+<select id="sentenceDropdown" onchange="showTokens(this)">
+    <option value="">Analyze a phrase</option>
+    {% for result in sentence_results %}
+    <option value="{{ result.sentence }}">{{ result.sentence }}</option>
+    {% endfor %}
+</select>
 
-<h2 id="toggleCorrectedTokens">Token corretti <span id="arrowCorrectedTokens">▼</span></h2>
-<div id="tokensCorrectedContent" style="display: none;">
-    {{ corrected_tokens }}
-</div>
+<div id="tokenDisplay"></div>
 
-<h2 id="toggleStopwordsRemoved">Stopwords rimosse <span id="arrowStopwordsRemoved">▼</span></h2>
-<div id="stopwordsRemovedContent" style="display: none;">
-    {{ stopwords_removed }}
-</div>
-
-<h2 id="toggleStopwords">Token senza stopwords <span id="arrowStopwords">▼</span></h2>
-<div id="stopwordsContent" style="display: none;">
-    {{ tokens_no_stopwords }}
-</div>
-
-<h2 id="toggleLemmatization">Lemmatizzazione <span id="arrowLemmatization">▼</span></h2>
-<div id="lemmatizationContent" style="display: none;">
-    {{ lemmatized_text }}
-</div>
 {% endif %}
+
+<script>
+function showTokens(selectObject) {
+    var index = selectObject.selectedIndex;
+    var sentence = selectObject.options[index].value;
+    var sentenceResults = {{ sentence_results | tojson | safe}};
+    var selectedResult = sentenceResults.find(function(result) {
+        return result.sentence === sentence;
+    });
+    var tokenDisplay = document.getElementById('tokenDisplay');
+
+    tokenDisplay.innerHTML = '<h2>Tokens</h2>';
+    tokenDisplay.innerHTML += '<p>' + selectedResult.tokens.join(', ') + '</p>';
+
+    tokenDisplay.innerHTML += '<h2>Corrected Tokens</h2>';
+    tokenDisplay.innerHTML += '<p>' + selectedResult.corrected_tokens.join(', ') + '</p>';
+
+    tokenDisplay.innerHTML += '<h2>Stopwords Removed</h2>';
+    tokenDisplay.innerHTML += '<p>' + selectedResult.stopwords_removed.join(', ') + '</p>';
+
+    tokenDisplay.innerHTML += '<h2>Tokens without stopwords</h2>';
+    tokenDisplay.innerHTML += '<p>' + selectedResult.tokens_no_stopwords.join(', ') + '</p>';
+
+    tokenDisplay.innerHTML += '<h2>Lemmatized Text</h2>';
+    tokenDisplay.innerHTML += '<p>' + selectedResult.lemmatized_text.join(', ') + '</p>';
+}
+</script>
 
 {% endblock %}
