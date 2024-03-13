@@ -149,3 +149,17 @@ label {
 #toggleLemmatization, #arrowLemmatization {
   cursor: pointer;
 }
+
+.header {
+  text-align: center;
+  font-family: 'MedievalFont', cursive; /* Aggiungi il font medievale desiderato */
+  font-size: 60px; /* Dimensione del font */
+  margin-bottom: 20px; /* Margine inferiore */
+}
+
+.sub-header{
+  text-align: center;
+  font-family: 'MedievalFont', cursive; /* Aggiungi il font medievale desiderato */
+  font-size: 40px; /* Dimensione del font */
+  margin-bottom: 20px; /* Margine inferiore */
+}
