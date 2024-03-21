@@ -2,3 +2,4 @@ flask
 tokenizers
 nltk
 editdistance
+transformers
