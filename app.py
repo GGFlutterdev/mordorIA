@@ -21,6 +21,7 @@ app.corpora = []  # Lista per mantenere il testo di ciascun file
 app.corpora_book_names = []
 # Directory contenente i file di testo per l'addestramento del token learner
 corpora_dir = './corpora'
+results_dir = './results'
 app.tokenizer = Tokenizer.from_file("./data/newtokenizer.json")
 qa_model = pipeline("question-answering")
 
@@ -36,7 +37,7 @@ nltk.download('punkt')
 
 
 # Funzione per leggere i file di testo nel corpus e aggiornare il token learner
-def train_token_learner(tokenizer, corpora_dir):
+def train_token_learner(corpora_dir):
     
     # Itera attraverso i file di testo nel corpus
     for filename in os.listdir(corpora_dir):
@@ -48,10 +49,10 @@ def train_token_learner(tokenizer, corpora_dir):
                 app.corpora.append(corpus)  # Aggiungi il testo alla lista
                 app.corpora_book_names.append(filename)
     # Aggiorna il token learner con il testo dei file
-    tokenizer.train_from_iterator(app.corpora)
+    app.tokenizer.train_from_iterator(app.corpora)
 
 # Addestra il token learner con il corpus di testo
-train_token_learner(app.tokenizer, corpora_dir)
+train_token_learner(corpora_dir)
 
 app.tokenizer.save("./data/newtokenizer.json")
 app.tokenizer = Tokenizer.from_file("./data/newtokenizer.json")
@@ -102,13 +103,16 @@ def identify_relevant_books(tokens, vectorizer, tfidf_matrix):
 
         for i in range(len(app.corpora_book_names)):
             tfidf_value = tfidf_matrix.toarray()[i][vectorizer.vocabulary_[token_key]]
-            if(tfidf_value > 0.04):
+            if(app.corpora_book_names[i] == 'Lost Mine of Phandelver.raw'):
+                print(token + ': ' + str(tfidf_value))
+            if(tfidf_value > 0.02):
                 relevant_books.append(app.corpora_book_names[i])
     return list(set(relevant_books))
 
 def generate_answer(books, question):
     if not books:
         return 'Nessuna risposta'
+    
     min_score = 0
     context = ''
     best_answer = ''
@@ -123,6 +127,11 @@ def generate_answer(books, question):
     print(qa_answer)
     if score > min_score:
         best_answer = qa_answer
+
+    file_path = os.path.join(results_dir, 'results.txt')
+    with open(file_path, 'a', encoding='utf-8') as file:
+        file.write('Question: ' + question + '\nAnswer: ' + str(best_answer) + '\n\n')
+
 
     return best_answer
 
