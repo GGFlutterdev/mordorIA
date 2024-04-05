@@ -186,3 +186,7 @@ select option {
   background-color: #f7f3eb; /* Colore di sfondo */
   color: #7b6c5d; /* Colore del testo */
 }
+
+.arrow {
+  cursor: pointer;
+}

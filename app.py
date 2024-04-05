@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from tokenizers import Tokenizer
+from tokenizers import ByteLevelBPETokenizer
 from datasheet import datasheet_bp
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
@@ -22,7 +22,7 @@ app.corpora_book_names = []
 # Directory contenente i file di testo per l'addestramento del token learner
 corpora_dir = './corpora'
 results_dir = './results'
-app.tokenizer = Tokenizer.from_file("./data/newtokenizer.json")
+app.tokenizer = ByteLevelBPETokenizer()
 qa_model = pipeline("question-answering")
 
 # Lista delle stopwords nella lingua inglese
@@ -49,13 +49,12 @@ def train_token_learner(corpora_dir):
                 app.corpora.append(corpus)  # Aggiungi il testo alla lista
                 app.corpora_book_names.append(filename)
     # Aggiorna il token learner con il testo dei file
-    app.tokenizer.train_from_iterator(app.corpora)
+    app.tokenizer.train_from_iterator(app.corpora, vocab_size=100000,
+     show_progress=True,
+     special_tokens=["<s>","<pad>","</s>","<unk>","<mask>"])
 
 # Addestra il token learner con il corpus di testo
 train_token_learner(corpora_dir)
-
-app.tokenizer.save("./data/newtokenizer.json")
-app.tokenizer = Tokenizer.from_file("./data/newtokenizer.json")
 
 vectorizer = TfidfVectorizer(stop_words='english')
 
@@ -103,9 +102,7 @@ def identify_relevant_books(tokens, vectorizer, tfidf_matrix):
 
         for i in range(len(app.corpora_book_names)):
             tfidf_value = tfidf_matrix.toarray()[i][vectorizer.vocabulary_[token_key]]
-            if(app.corpora_book_names[i] == 'Lost Mine of Phandelver.raw'):
-                print(token + ': ' + str(tfidf_value))
-            if(tfidf_value > 0.02):
+            if(tfidf_value > 0.018):
                 relevant_books.append(app.corpora_book_names[i])
     return list(set(relevant_books))
 
@@ -135,6 +132,19 @@ def generate_answer(books, question):
 
     return best_answer
 
+def remove_g_prefix(strings):
+    modified_strings = []
+    for string in strings:
+        if string == 'Ġ' or string == 'Ċ' or string=='ł' or string=='Ä':
+            continue
+        if string.startswith('Ġ') and len(string) > 1:
+            modified_string = string[1:]
+            modified_strings.append(modified_string)
+        else:
+            modified_strings.append(string)
+    return modified_strings
+
+
 @app.route('/')
 def index():
     return render_template('index.html', sentence_results=[])
@@ -156,15 +166,20 @@ def submit():
 
             encoded_text = app.tokenizer.encode(sentence_without_punctuation)
             tokenized_text = encoded_text.tokens
+            tokenized_text = remove_g_prefix(tokenized_text)
+            
 
             words_separated_by_space = sentence_without_punctuation.split()
             # Trova le parole corrette utilizzando la distanza di edit
             correct_words = find_correct_words_by_edit_distance(words_separated_by_space)
             correct_words_text = ' '.join(correct_words)
 
+            
+
             encoded_correct_text = app.tokenizer.encode(correct_words_text)
             # Restituisci i token corretti
             tokenized_correct_text = encoded_correct_text.tokens
+            tokenized_correct_text = remove_g_prefix(tokenized_correct_text)
             # Identificazione stopwords
             stopwords_removed = [word for word in tokenized_correct_text if word.lower() in stop_words]
             # Rimozione delle stopwords
@@ -174,16 +189,15 @@ def submit():
 
             relevant_books = identify_relevant_books(lemmatized_text, vectorizer, tfidf_matrix)
 
-            print(relevant_books)
-
-            generate_answer(relevant_books,sentence)
-
-            result = Sentence(sentence=sentence_without_punctuation,
-                              tokens=tokenized_text,
-                              corrected_tokens=tokenized_correct_text,
-                              tokens_no_stopwords=cleaned_text_no_stopwords,
-                              lemmatized_text=lemmatized_text,
-                              stopwords_removed=stopwords_removed)
+            result = Sentence(
+                        sentence= sentence_without_punctuation,
+                        tokens= tokenized_text,
+                        corrected_tokens= tokenized_correct_text,
+                        tokens_no_stopwords= cleaned_text_no_stopwords,
+                        lemmatized_text= lemmatized_text,
+                        stopwords_removed= stopwords_removed,
+                        relevant_books= relevant_books
+                    )
             
             # Aggiungi il risultato alla lista dei risultati delle frasi
             sentence_results.append(result)

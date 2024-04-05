@@ -39,21 +39,25 @@
         var tokensContent = document.getElementById('tokensContent');
         var arrowTokens = document.getElementById('arrowTokens');
 
-        var toggleStopwordsRemoved = document.getElementById('toggleStopwordsRemoved');
-        var stopwordsRemovedContent = document.getElementById('stopwordsRemovedContent');
-        var arrowStopwordsRemoved = document.getElementById('arrowStopwordsRemoved');
+        var toggleCorrectedTokens = document.getElementById('toggleCorrectedTokens');
+        var tokensCorrectedContent = document.getElementById('tokensCorrectedContent');
+        var arrowCorrectedTokens = document.getElementById('arrowCorrectedTokens');
 
         var toggleStopwords = document.getElementById('toggleStopwords');
         var stopwordsContent = document.getElementById('stopwordsContent');
         var arrowStopwords = document.getElementById('arrowStopwords');
 
+        var toggleStopwordsRemoved = document.getElementById('toggleStopwordsRemoved');
+        var stopwordsRemovedContent = document.getElementById('stopwordsRemovedContent');
+        var arrowStopwordsRemoved = document.getElementById('arrowStopwordsRemoved');
+
         var toggleLemmatization = document.getElementById('toggleLemmatization');
         var lemmatizationContent = document.getElementById('lemmatizationContent');
         var arrowLemmatization = document.getElementById('arrowLemmatization');
 
-        var toggleCorrectedTokens = document.getElementById('toggleCorrectedTokens');
-        var tokensCorrectedContent = document.getElementById('tokensCorrectedContent');
-        var arrowCorrectedTokens = document.getElementById('arrowCorrectedTokens');
+        var toggleRelevantBooks = document.getElementById('toggleRelevantBooks');
+        var relevantBooksContent = document.getElementById('relevantBooksContent');
+        var arrowRelevantBooks = document.getElementById('arrowRelevantBooks');
         
 
         // Aggiungi un gestore di eventi per il clic sugli elementi h2
@@ -61,20 +65,24 @@
             toggleContent(tokensContent, arrowTokens);
         });
 
-        toggleStopwordsRemoved.addEventListener('click', function() {
-            toggleContent(stopwordsRemovedContent, arrowStopwordsRemoved);
+        toggleCorrectedTokens.addEventListener('click', function() {
+            toggleContent(tokensCorrectedContent, arrowCorrectedTokens);
         });
 
         toggleStopwords.addEventListener('click', function() {
             toggleContent(stopwordsContent, arrowStopwords);
         });
 
+        toggleStopwordsRemoved.addEventListener('click', function() {
+            toggleContent(stopwordsRemovedContent, arrowStopwordsRemoved);
+        });
+
         toggleLemmatization.addEventListener('click', function() {
             toggleContent(lemmatizationContent, arrowLemmatization);
         });
 
-        toggleCorrectedTokens.addEventListener('click', function() {
-            toggleContent(tokensCorrectedContent, arrowCorrectedTokens);
+        toggleRelevantBooks.addEventListener('click', function() {
+            toggleContent(relevantBooksContent, arrowRelevantBooks);
         });
 
         // Funzione per mostrare/nascondere il contenuto e aggiornare la freccia
