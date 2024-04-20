@@ -1,103 +1,158 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename= 'css/mordor_style.css') }}"
+    />
+
     <title>{% block title %} {% endblock %}</title>
+
     <!-- Include custom favicon -->
-    <link rel="icon" type="image/png" href="static/logo.png">
-</head>
-<body>
+    <link rel="icon" type="image/png" href="static/logo.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
 
-<div class="header">
-    MordorIA
-</div>
+  <body>
+    <!--<div class="header">MordorIA</div>
+    <div class="sub-header">One prompt to rule them all</div> -->
 
-<div class="sub-header">
-    One prompt to rule them all
-</div>
+    <header>
+      <div class="navbar">
+        <div class="logo"><a href="#">MordorIA</a></div>
+        <ul class="links">
+          <li><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+        </ul>
+        <a href="#" class="action_btn">Get Started</a>
+        <div class="toggle_btn">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </div>
+    </header>
 
-<div class="container">
-    {% block content %} {% endblock %}
-</div>
+    <div class="container">{% block content %} {% endblock %}</div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-{% block scripts %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    {% block scripts %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
         // Seleziona gli elementi h2 e il contenuto da mostrare/nascondere
 
-        var toggleTokens = document.getElementById('toggleTokens');
-        var tokensContent = document.getElementById('tokensContent');
-        var arrowTokens = document.getElementById('arrowTokens');
+        var toggleTokens = document.getElementById("toggleTokens");
+        var tokensContent = document.getElementById("tokensContent");
+        var arrowTokens = document.getElementById("arrowTokens");
 
-        var toggleCorrectedTokens = document.getElementById('toggleCorrectedTokens');
-        var tokensCorrectedContent = document.getElementById('tokensCorrectedContent');
-        var arrowCorrectedTokens = document.getElementById('arrowCorrectedTokens');
+        var toggleCorrectedTokens = document.getElementById(
+          "toggleCorrectedTokens"
+        );
+        var tokensCorrectedContent = document.getElementById(
+          "tokensCorrectedContent"
+        );
+        var arrowCorrectedTokens = document.getElementById(
+          "arrowCorrectedTokens"
+        );
 
-        var toggleStopwords = document.getElementById('toggleStopwords');
-        var stopwordsContent = document.getElementById('stopwordsContent');
-        var arrowStopwords = document.getElementById('arrowStopwords');
+        var toggleStopwords = document.getElementById("toggleStopwords");
+        var stopwordsContent = document.getElementById("stopwordsContent");
+        var arrowStopwords = document.getElementById("arrowStopwords");
 
-        var toggleStopwordsRemoved = document.getElementById('toggleStopwordsRemoved');
-        var stopwordsRemovedContent = document.getElementById('stopwordsRemovedContent');
-        var arrowStopwordsRemoved = document.getElementById('arrowStopwordsRemoved');
+        var toggleStopwordsRemoved = document.getElementById(
+          "toggleStopwordsRemoved"
+        );
+        var stopwordsRemovedContent = document.getElementById(
+          "stopwordsRemovedContent"
+        );
+        var arrowStopwordsRemoved = document.getElementById(
+          "arrowStopwordsRemoved"
+        );
 
-        var toggleLemmatization = document.getElementById('toggleLemmatization');
-        var lemmatizationContent = document.getElementById('lemmatizationContent');
-        var arrowLemmatization = document.getElementById('arrowLemmatization');
+        var toggleLemmatization = document.getElementById(
+          "toggleLemmatization"
+        );
+        var lemmatizationContent = document.getElementById(
+          "lemmatizationContent"
+        );
+        var arrowLemmatization = document.getElementById("arrowLemmatization");
 
-        var toggleRelevantBooks = document.getElementById('toggleRelevantBooks');
-        var relevantBooksContent = document.getElementById('relevantBooksContent');
-        var arrowRelevantBooks = document.getElementById('arrowRelevantBooks');
-        
+        var toggleRelevantBooks = document.getElementById(
+          "toggleRelevantBooks"
+        );
+        var relevantBooksContent = document.getElementById(
+          "relevantBooksContent"
+        );
+        var arrowRelevantBooks = document.getElementById("arrowRelevantBooks");
 
         // Aggiungi un gestore di eventi per il clic sugli elementi h2
-        toggleTokens.addEventListener('click', function() {
-            toggleContent(tokensContent, arrowTokens);
+        toggleTokens.addEventListener("click", function () {
+          toggleContent(tokensContent, arrowTokens);
         });
 
-        toggleCorrectedTokens.addEventListener('click', function() {
-            toggleContent(tokensCorrectedContent, arrowCorrectedTokens);
+        toggleCorrectedTokens.addEventListener("click", function () {
+          toggleContent(tokensCorrectedContent, arrowCorrectedTokens);
         });
 
-        toggleStopwords.addEventListener('click', function() {
-            toggleContent(stopwordsContent, arrowStopwords);
+        toggleStopwords.addEventListener("click", function () {
+          toggleContent(stopwordsContent, arrowStopwords);
         });
 
-        toggleStopwordsRemoved.addEventListener('click', function() {
-            toggleContent(stopwordsRemovedContent, arrowStopwordsRemoved);
+        toggleStopwordsRemoved.addEventListener("click", function () {
+          toggleContent(stopwordsRemovedContent, arrowStopwordsRemoved);
         });
 
-        toggleLemmatization.addEventListener('click', function() {
-            toggleContent(lemmatizationContent, arrowLemmatization);
+        toggleLemmatization.addEventListener("click", function () {
+          toggleContent(lemmatizationContent, arrowLemmatization);
         });
 
-        toggleRelevantBooks.addEventListener('click', function() {
-            toggleContent(relevantBooksContent, arrowRelevantBooks);
+        toggleRelevantBooks.addEventListener("click", function () {
+          toggleContent(relevantBooksContent, arrowRelevantBooks);
         });
 
         // Funzione per mostrare/nascondere il contenuto e aggiornare la freccia
         function toggleContent(content, arrow) {
-            // Se il contenuto è visibile, nascondilo, altrimenti mostralo
-            if (content.style.display === 'none') {
-                content.style.display = 'block';
-                arrow.innerHTML = '▲'; // Cambia la freccia verso l'alto
-            } else {
-                content.style.display = 'none';
-                arrow.innerHTML = '▼'; // Cambia la freccia verso il basso
-            }
+          // Se il contenuto è visibile, nascondilo, altrimenti mostralo
+          if (content.style.display === "none") {
+            content.style.display = "block";
+            arrow.innerHTML = "▲"; // Cambia la freccia verso l'alto
+          } else {
+            content.style.display = "none";
+            arrow.innerHTML = "▼"; // Cambia la freccia verso il basso
+          }
         }
-    });
-</script>
-{% endblock %}
-</body>
+      });
+    </script>
+    {% endblock %}
+  </body>
 </html>
