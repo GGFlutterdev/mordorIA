@@ -3,3 +3,7 @@ tokenizers
 nltk
 editdistance
 transformers
+scikit-learn
+torch
+tensorflow
+tf-keras

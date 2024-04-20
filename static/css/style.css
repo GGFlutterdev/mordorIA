@@ -1,8 +1,10 @@
 /* Reset some default styles */
-body, html {
+body,
+html {
   margin: 0;
   padding: 16px;
-  font-family: 'MedievalFont', cursive; /* Usa il font fantasy */
+  /*font-family: 'MedievalFont', cursive; Usa il font fantasy */
+  font-family: Papyrus, fantasy; /*Usa il font fantasy */
   background-color: #f7f3eb; /* Cambia il colore di sfondo */
 }
 
@@ -68,7 +70,7 @@ input[type="text"] {
   border-radius: 20px; /* Aumenta il raggio del bordo */
   font-size: 20px; /* Aumenta la dimensione del font */
   outline: none;
-  font-family: 'MedievalFont', cursive; /* Usa il font fantasy */
+  /*font-family: "MedievalFont", cursive; Usa il font fantasy */
 }
 
 /* Style for the submit button */
@@ -83,14 +85,13 @@ input[type="submit"] {
   cursor: pointer;
   outline: none;
   text-transform: uppercase; /* Converti il testo in maiuscolo */
-  font-family: 'MedievalFont', cursive; /* Usa il font fantasy */
+  /* font-family: "MedievalFont", cursive; Usa il font fantasy */
 }
-
 
 /* Style for the placeholder text */
 input[type="text"]::placeholder {
   color: #a9998d; /* Cambia il colore del testo del placeholder */
-  font-family: 'MedievalFont', cursive; /* Usa il font fantasy */
+  /* font-family: "MedievalFont", cursive; Usa il font fantasy */
 }
 
 /* Style for the input when it's focused */
@@ -137,38 +138,43 @@ label {
   color: #c7d5e0; /* Colore del link al passaggio del mouse */
 }
 
-#toggleTokens, #arrowTokens {
+#toggleTokens,
+#arrowTokens {
   cursor: pointer;
 }
 
-#toggleStopwordsRemoved, #arrowStopwordsRemoved {
+#toggleStopwordsRemoved,
+#arrowStopwordsRemoved {
   cursor: pointer;
 }
 
-#toggleStopwords, #arrowStopwords {
+#toggleStopwords,
+#arrowStopwords {
   cursor: pointer;
 }
 
-#toggleLemmatization, #arrowLemmatization {
+#toggleLemmatization,
+#arrowLemmatization {
   cursor: pointer;
 }
 
 .header {
   text-align: center;
-  font-family: 'MedievalFont', cursive; /* Aggiungi il font medievale desiderato */
+  /*font-family: "MedievalFont", cursive; Aggiungi il font medievale desiderato */
+  font-family: Papyrus, fantasy; /*Usa il font fantasy */
   font-size: 60px; /* Dimensione del font */
   margin-bottom: 20px; /* Margine inferiore */
 }
 
-.sub-header{
+.sub-header {
   text-align: center;
-  font-family: 'MedievalFont', cursive; /* Aggiungi il font medievale desiderato */
+  /* font-family: "MedievalFont", cursive; Aggiungi il font medievale desiderato */
   font-size: 40px; /* Dimensione del font */
   margin-bottom: 20px; /* Margine inferiore */
 }
 
 select {
-  font-family: 'MedievalFont', cursive; /* Usa il font fantasy */
+  /* font-family: "MedievalFont", cursive; Usa il font fantasy */
   font-size: 20px; /* Dimensione del font */
   padding: 10px; /* Aggiungi spazio intorno al testo */
   border-radius: 10px; /* Bordo arrotondato */
@@ -181,7 +187,7 @@ select {
 
 /* Stile fantasy per le opzioni del dropdown */
 select option {
-  font-family: 'MedievalFont', cursive; /* Usa il font fantasy */
+  /* font-family: "MedievalFont", cursive;  Usa il font fantasy */
   font-size: 20px; /* Dimensione del font */
   background-color: #f7f3eb; /* Colore di sfondo */
   color: #7b6c5d; /* Colore del testo */
