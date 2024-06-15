@@ -1,21 +1,23 @@
 from flask import Flask, render_template, request
 from tokenizers import ByteLevelBPETokenizer
 from datasheet import datasheet_bp
+from UserInput import userinput_bp, find_correct_words_by_edit_distance, identify_relevant_books, remove_g_prefix, remove_punctuation
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import sent_tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sentence import Sentence
+from Sentence import Sentence
 from transformers import pipeline
 
-import editdistance
+
 import nltk
-import re
+
 import os
 
 app = Flask(__name__)
 
 app.register_blueprint(datasheet_bp)
+app.register_blueprint(userinput_bp)
 
 app.corpora = []  # Lista per mantenere il testo di ciascun file
 app.corpora_book_names = []
@@ -59,91 +61,6 @@ train_token_learner(corpora_dir)
 vectorizer = TfidfVectorizer(stop_words='english')
 
 tfidf_matrix = vectorizer.fit_transform(app.corpora)
-
-def remove_punctuation(sentence):
-    # Definisci un'espressione regolare per la punteggiatura di fine frase
-    punctuation_pattern = re.compile(r'[.!?,;:]')
-    # Rimuovi la punteggiatura di fine frase dalla frase
-    sentence_without_punctuation = punctuation_pattern.sub('', sentence)
-    return sentence_without_punctuation
-
-
-def find_correct_words_by_edit_distance(words_separated_by_space):
-    # Lista per memorizzare le parole corrette
-    correct_words = []
-
-    for word in words_separated_by_space:
-        found = False
-        min_distance = float('inf')
-        closest_word = None
-        for token in app.tokenizer.get_vocab():
-
-            distance = editdistance.eval(word, token)
-            if distance == 0:
-                correct_words.append(word)
-                found = True
-                break
-            if distance < min_distance:
-                min_distance = distance
-                closest_word = token
-        if closest_word and found == False :
-            correct_words.append(closest_word)
-    return correct_words
-
-def identify_relevant_books(tokens, vectorizer, tfidf_matrix):
-    relevant_books = []
-    for token in tokens:
-        if token.lower() in vectorizer.vocabulary_:
-            token_key = token.lower()
-        elif token.lower() + 'ã' in vectorizer.vocabulary_:
-            token_key = token.lower() + 'ã'
-        else:
-            continue
-
-        for i in range(len(app.corpora_book_names)):
-            tfidf_value = tfidf_matrix.toarray()[i][vectorizer.vocabulary_[token_key]]
-            if(tfidf_value > 0.018):
-                relevant_books.append(app.corpora_book_names[i])
-    return list(set(relevant_books))
-
-def generate_answer(books, question):
-    if not books:
-        return 'Nessuna risposta'
-    
-    min_score = 0
-    context = ''
-    best_answer = ''
-    for book in books:
-        file_path = os.path.join(corpora_dir, book)
-        # Leggi il contenuto del file di testo
-        with open(file_path, 'r', encoding='utf-8') as file:
-            context += ' ' + file.read()
-
-    qa_answer = qa_model(question = question, context = context)
-    score = qa_answer['score']
-    print(qa_answer)
-    if score > min_score:
-        best_answer = qa_answer
-
-    file_path = os.path.join(results_dir, 'results.txt')
-    with open(file_path, 'a', encoding='utf-8') as file:
-        file.write('Question: ' + question + '\nAnswer: ' + str(best_answer) + '\n\n')
-
-
-    return best_answer
-
-def remove_g_prefix(strings):
-    modified_strings = []
-    for string in strings:
-        if string == 'Ġ' or string == 'Ċ' or string=='ł' or string=='Ä':
-            continue
-        if string.startswith('Ġ') and len(string) > 1:
-            modified_string = string[1:]
-            modified_strings.append(modified_string)
-        else:
-            modified_strings.append(string)
-    return modified_strings
-
 
 @app.route('/')
 def index():
