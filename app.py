@@ -15,6 +15,8 @@ import nltk
 
 import os
 
+import xlsxwriter
+
 app = Flask(__name__)
 
 app.register_blueprint(datasheet_bp)
@@ -38,6 +40,9 @@ nltk.download('stopwords')
 nltk.download('wordnet')
 nltk.download('punkt')
 
+# Inizializza il file excel
+workbook = xlsxwriter.Workbook("TokenizationResults.xlsx")
+worksheet = workbook.add_worksheet("firstSheet")
 
 # Funzione per leggere i file di testo nel corpus e aggiornare il token learner
 def train_token_learner(corpora_dir):
@@ -121,6 +126,35 @@ def submit():
             
             # Aggiungi il risultato alla lista dei risultati delle frasi
             sentence_results.append(result)
+
+            #Salva i risultati nel file excel
+            #Fornisce i nomi alle colonne
+            worksheet.write(0, 0, "Tokens")
+            worksheet.write(0, 1, "Corrected Tokens")
+            worksheet.write(0, 2, "Stopwords Removed")  
+            worksheet.write(0, 3, "Tokens without stopwords")
+            worksheet.write(0, 4, "Lemmatized text")
+            worksheet.write(0, 5, "Relevant books")
+
+            #Salva i valori nelle colonne
+            for index, token_text in enumerate(tokenized_text):
+                worksheet.write(index+1, 0, str(token_text))
+
+            for index, correct_token_text in enumerate(tokenized_correct_text):
+                worksheet.write(index+1, 1, str(correct_token_text))
+
+            for index, removed_words in enumerate(stopwords_removed):
+                worksheet.write(index+1, 2, str(removed_words))
+
+            for index, clean_text in enumerate(cleaned_text_no_stopwords):
+                worksheet.write(index+1, 3, str(clean_text))
+
+            for index, lemma_text in enumerate(lemmatized_text):
+                worksheet.write(index+1, 4, str(lemma_text))
+
+            for index, relevant_book in enumerate(relevant_books):
+                worksheet.write(index+1, 5, str(relevant_book))
+            workbook.close()
 
             # Converti manualmente gli oggetti Sentence in dizionari
             sentence_results_dict = [result.to_dict() for result in sentence_results]

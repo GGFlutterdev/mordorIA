@@ -7,3 +7,4 @@ scikit-learn
 torch
 tensorflow
 tf-keras
+xlsxwriter
