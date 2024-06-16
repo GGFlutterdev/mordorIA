@@ -1,14 +1,16 @@
 {% extends 'base.html' %} {% block title %} mordorIA {% endblock %} {% block
 content %}
 
-<form id="myForm" action="/submit" method="post">
-  <input
-    type="text"
-    id="user_input"
-    name="user_input"
-    placeholder="What should I generate?"
-  />
-  <input type="submit" id="submitBtn" class="btn" value="Generate" />
+<form id="myForm" action="/submit" method="post" class="formContainer">
+  <div class="formInnerContainer">
+    <div class="entryarea">
+      <input type="text" id="user_input" name="user_input" required />
+      <div class="labelline">Ask me anything</div>
+    </div>
+    <div class="btnContainer">
+      <button id="submitBtn" class="btn">Generate</button>
+    </div>
+  </div>
 </form>
 
 {% if sentence_results %}

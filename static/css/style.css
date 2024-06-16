@@ -6,6 +6,7 @@
 
 body {
   background-color: #4f4f4f;
+  min-height: 100vh;
 }
 
 a {
@@ -111,4 +112,73 @@ header {
 .btn:active {
   color: #000;
   font-weight: bold;
+}
+
+.formContainer {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 100px;
+}
+
+.formInnerContainer {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.entryarea {
+  position: relative;
+  height: 60px;
+  line-height: 80px;
+  flex: 0.5;
+}
+
+.btnContainer {
+  height: auto;
+  margin-top: 20px;
+  margin-left: 20px;
+  align-items: center;
+}
+
+.entryarea input {
+  position: absolute;
+  width: 600px;
+  outline: none;
+  /*font-size: 1.2em;*/
+  font-size: 1em;
+  padding: 0 30px;
+  line-height: 80px;
+  border-radius: 10px;
+  border: 2px solid white;
+  background: transparent;
+  transform: 0.1s ease;
+  z-index: 1111;
+}
+
+.labelline {
+  position: absolute;
+  font-size: 1.6em;
+  color: white;
+  padding: 0 25px;
+  margin: 0 20px;
+  background-color: #4f4f4f;
+  transition: 0.2 ease;
+}
+
+.entryarea input:focus,
+.entryarea input:valid {
+  color: orange;
+  border: 4px solid orange;
+}
+
+.entryarea input:focus + .labelline,
+.entryarea input:valid + .labelline {
+  color: orange;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 12px;
+  transform: translate(-12px, -12px) scale(0.88);
+  z-index: 1111;
 }
