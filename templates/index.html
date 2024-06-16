@@ -1,20 +1,22 @@
-{% extends 'base.html' %}
-
-{% block title %} mordorIA {% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %} mordorIA {% endblock %} {% block
+content %}
 
 <form id="myForm" action="/submit" method="post">
-    <input type="text" id="user_input" name="user_input" placeholder="What should I generate?">
-    <input type="submit" id="submitBtn" value="Generate">
+  <input
+    type="text"
+    id="user_input"
+    name="user_input"
+    placeholder="What should I generate?"
+  />
+  <input type="submit" id="submitBtn" class="btn" value="Generate" />
 </form>
 
 {% if sentence_results %}
 <select id="sentenceDropdown" onchange="showTokens(this)">
-    <option value="">Analyze a phrase</option>
-    {% for result in sentence_results %}
-    <option value="{{ result.sentence }}">{{ result.sentence }}</option>
-    {% endfor %}
+  <option value="">Analyze a phrase</option>
+  {% for result in sentence_results %}
+  <option value="{{ result.sentence }}">{{ result.sentence }}</option>
+  {% endfor %}
 </select>
 
 <div id="tokenDisplay"></div>
@@ -22,71 +24,71 @@
 {% endif %}
 
 <script>
-function showTokens(selectObject) {
-    var index = selectObject.selectedIndex;
-    var sentence = selectObject.options[index].value;
-    var sentenceResults = {{ sentence_results | tojson | safe}};
-    var selectedResult = sentenceResults.find(function(result) {
-        return result.sentence === sentence;
-    });
-    var tokenDisplay = document.getElementById('tokenDisplay');
+  function showTokens(selectObject) {
+      var index = selectObject.selectedIndex;
+      var sentence = selectObject.options[index].value;
+      var sentenceResults = {{ sentence_results | tojson | safe}};
+      var selectedResult = sentenceResults.find(function(result) {
+          return result.sentence === sentence;
+      });
+      var tokenDisplay = document.getElementById('tokenDisplay');
 
-    // Rimuovi tutti i contenuti precedenti da tokenDisplay
-    tokenDisplay.innerHTML = '';
+      // Rimuovi tutti i contenuti precedenti da tokenDisplay
+      tokenDisplay.innerHTML = '';
 
-    // Crea e aggiungi gli elementi per i token
-    createAndAppendSection(tokenDisplay, 'Tokens', selectedResult.tokens, 'tokensContent');
-    createAndAppendSection(tokenDisplay, 'Corrected Tokens', selectedResult.corrected_tokens, 'tokensCorrectedContent');
-    createAndAppendSection(tokenDisplay, 'Stopwords Removed', selectedResult.stopwords_removed, 'stopwordsContent');
-    createAndAppendSection(tokenDisplay, 'Tokens without stopwords', selectedResult.tokens_no_stopwords, 'stopwordsRemovedContent');
-    createAndAppendSection(tokenDisplay, 'Lemmatized Text', selectedResult.lemmatized_text, 'lemmatizationContent');
-    createAndAppendSection(tokenDisplay, 'Relevant books', selectedResult.relevant_books, 'relevantBooksContent');
-}
+      // Crea e aggiungi gli elementi per i token
+      createAndAppendSection(tokenDisplay, 'Tokens', selectedResult.tokens, 'tokensContent');
+      createAndAppendSection(tokenDisplay, 'Corrected Tokens', selectedResult.corrected_tokens, 'tokensCorrectedContent');
+      createAndAppendSection(tokenDisplay, 'Stopwords Removed', selectedResult.stopwords_removed, 'stopwordsContent');
+      createAndAppendSection(tokenDisplay, 'Tokens without stopwords', selectedResult.tokens_no_stopwords, 'stopwordsRemovedContent');
+      createAndAppendSection(tokenDisplay, 'Lemmatized Text', selectedResult.lemmatized_text, 'lemmatizationContent');
+      createAndAppendSection(tokenDisplay, 'Relevant books', selectedResult.relevant_books, 'relevantBooksContent');
+  }
 
-// Funzione per creare e aggiungere una sezione al tokenDisplay
-function createAndAppendSection(parent, sectionTitle, contentArray, id) {
-    var section = document.createElement('div');
-    section.classList.add('section');
+  // Funzione per creare e aggiungere una sezione al tokenDisplay
+  function createAndAppendSection(parent, sectionTitle, contentArray, id) {
+      var section = document.createElement('div');
+      section.classList.add('section');
 
-    var header = document.createElement('h2');
-    header.textContent = sectionTitle;
+      var header = document.createElement('h2');
+      header.textContent = sectionTitle;
 
-    var arrow = document.createElement('span');
-    arrow.classList.add('arrow');
-    arrow.textContent = '▼'; // Aggiungi un'indicazione verso il basso come default
-    arrow.addEventListener('click', function() {
-        toggleContent(content, arrow);
-    });
+      var arrow = document.createElement('span');
+      arrow.classList.add('arrow');
+      arrow.textContent = '▼'; // Aggiungi un'indicazione verso il basso come default
+      arrow.addEventListener('click', function() {
+          toggleContent(content, arrow);
+      });
 
-    header.appendChild(arrow);
-    section.appendChild(header);
+      header.appendChild(arrow);
+      section.appendChild(header);
 
-    var content = document.createElement('div');
-    content.classList.add('content');
-    content.style.display = 'none'; // Nascondi il contenuto inizialmente
-    content.setAttribute('id', id); // Assegna l'ID al contenuto
+      var content = document.createElement('div');
+      content.classList.add('content');
+      content.style.display = 'none'; // Nascondi il contenuto inizialmente
+      content.setAttribute('id', id); // Assegna l'ID al contenuto
 
-    // Crea un unico paragrafo contenente gli elementi dell'array separati da virgola
-    var paragraph = document.createElement('p');
-    paragraph.textContent = contentArray.join(', ');
+      // Crea un unico paragrafo contenente gli elementi dell'array separati da virgola
+      var paragraph = document.createElement('p');
+      paragraph.textContent = contentArray.join(', ');
 
-    // Aggiungi il paragrafo al contenitore
-    content.appendChild(paragraph);
+      // Aggiungi il paragrafo al contenitore
+      content.appendChild(paragraph);
 
-    section.appendChild(content);
-    parent.appendChild(section);
-}
+      section.appendChild(content);
+      parent.appendChild(section);
+  }
 
-// Funzione per mostrare/nascondere il contenuto e aggiornare la freccia
-function toggleContent(content, arrow) {
-    if (content.style.display === 'none') {
-        content.style.display = 'block';
-        arrow.textContent = '▲'; // Cambia la freccia verso l'alto
-    } else {
-        content.style.display = 'none';
-        arrow.textContent = '▼'; // Cambia la freccia verso il basso
-    }
-}
+  // Funzione per mostrare/nascondere il contenuto e aggiornare la freccia
+  function toggleContent(content, arrow) {
+      if (content.style.display === 'none') {
+          content.style.display = 'block';
+          arrow.textContent = '▲'; // Cambia la freccia verso l'alto
+      } else {
+          content.style.display = 'none';
+          arrow.textContent = '▼'; // Cambia la freccia verso il basso
+      }
+  }
 </script>
 
 {% endblock %}
