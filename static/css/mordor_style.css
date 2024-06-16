@@ -11,7 +11,7 @@ a {
 header {
   width: 100%;
   height: 100vh;
-  background-image: url("../images/banshee_hut.jpeg");
+  background-image: url("../images/hut.png");
   background-position: bottom;
   background-size: cover;
   display: flex;
