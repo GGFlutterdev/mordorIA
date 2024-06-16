@@ -20,7 +20,6 @@ import xlsxwriter
 app = Flask(__name__)
 
 app.register_blueprint(datasheet_bp)
-app.register_blueprint(userinput_bp)
 
 app.corpora = []  # Lista per mantenere il testo di ciascun file
 app.corpora_book_names = []
@@ -56,17 +55,17 @@ def train_token_learner(corpora_dir):
                 corpus = file.read()
                 app.corpora.append(corpus)  # Aggiungi il testo alla lista
                 app.corpora_book_names.append(filename)
+                        
     # Aggiorna il token learner con il testo dei file
     app.tokenizer.train_from_iterator(app.corpora, vocab_size=100000,
      show_progress=True,
      special_tokens=["<s>","<pad>","</s>","<unk>","<mask>"])
-
 # Addestra il token learner con il corpus di testo
 train_token_learner(corpora_dir)
 
-vectorizer = TfidfVectorizer(stop_words='english')
+app.vectorizer = TfidfVectorizer(stop_words='english')
 
-tfidf_matrix = vectorizer.fit_transform(app.corpora)
+app.tfidf_matrix = app.vectorizer.fit_transform(app.corpora)
 
 @app.route('/')
 def index():
@@ -110,7 +109,7 @@ def submit():
             # Lemmatizza il testo
             lemmatized_text = [lemmatizer.lemmatize(word) for word in cleaned_text_no_stopwords]
 
-            relevant_books = identify_relevant_books(lemmatized_text, vectorizer, tfidf_matrix)
+            relevant_books = identify_relevant_books(lemmatized_text, app.vectorizer, app.tfidf_matrix)
 
             print(sentenceExtractionFromRelevantBooks(relevant_books, lemmatized_text))
 
