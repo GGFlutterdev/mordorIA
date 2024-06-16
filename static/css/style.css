@@ -4,6 +4,10 @@
   font-family: Papyrus, fantasy;
 }
 
+body {
+  background-color: #4f4f4f;
+}
+
 a {
   text-decoration: none;
 }
