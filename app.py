@@ -8,6 +8,7 @@ from nltk.tokenize import sent_tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
 from Sentence import Sentence
 from transformers import pipeline
+from ResultGeneration import sentenceExtractionFromRelevantBooks
 
 
 import nltk
@@ -105,6 +106,8 @@ def submit():
             lemmatized_text = [lemmatizer.lemmatize(word) for word in cleaned_text_no_stopwords]
 
             relevant_books = identify_relevant_books(lemmatized_text, vectorizer, tfidf_matrix)
+
+            print(sentenceExtractionFromRelevantBooks(relevant_books, lemmatized_text))
 
             result = Sentence(
                         sentence= sentence_without_punctuation,
