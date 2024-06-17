@@ -237,3 +237,57 @@ header {
 .select:hover::after {
   color: orange;
 }
+
+.resultContainer {
+  /*margin-top: 30vh;
+  background: red;
+  height: 100vh;*/
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.divCard {
+  background-color: aqua;
+  width: 40em;
+  border-radius: 10px;
+  position: relative;
+  box-sizing: border-box;
+  padding: 10px;
+  color: white;
+  margin: 20px 10px;
+}
+
+.divCard::before,
+.divCard::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+}
+
+.card::before {
+  bottom: -4em;
+  left: 0;
+  width: 65%;
+  height: 7em;
+}
+
+.card::after {
+  bottom: -2.46em;
+  right: 0.3em;
+  width: 59%;
+  height: 9em;
+  transform: rotate(-42deg);
+  border-radius: inherit;
+}
+
+.card p {
+  line-height: 25px;
+  font-size: 0.9em;
+}
+
+.divContent {
+  background-color: #ff3a00;
+}

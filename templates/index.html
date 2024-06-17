@@ -23,8 +23,10 @@ content %}
       {% endfor %}
     </select>
   </div>
-  <div id="tokenDisplay"></div>
-  {% endif %}
+  <div class="resultsContainer">
+    <div id="tokenDisplay"></div>
+    {% endif %}
+  </div>
 </div>
 
 <script>
@@ -52,6 +54,7 @@ content %}
   // Funzione per creare e aggiungere una sezione al tokenDisplay
   function createAndAppendSection(parent, sectionTitle, contentArray, id) {
       var section = document.createElement('div');
+      section.setAttribute("class", "divCard");
       section.classList.add('section');
 
       var header = document.createElement('h2');
@@ -68,6 +71,7 @@ content %}
       section.appendChild(header);
 
       var content = document.createElement('div');
+      content.setAttribute("class", "divContent");
       content.classList.add('content');
       content.style.display = 'none'; // Nascondi il contenuto inizialmente
       content.setAttribute('id', id); // Assegna l'ID al contenuto
