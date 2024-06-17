@@ -8,7 +8,7 @@ content %}
       <div class="labelline">Ask me anything</div>
     </div>
     <div class="btnContainer">
-      <button id="submitBtn" class="btn">Generate</button>
+      <button id="submitBtn" class="btn">Ask</button>
     </div>
   </div>
 </form>
@@ -17,7 +17,7 @@ content %}
 <div class="formatContainer">
   <div class="select">
     <select id="sentenceDropdown" onchange="showTokens(this)" class="format">
-      <option value="">Analyze a phrase</option>
+      <option value="">See the response</option>
       {% for result in sentence_results %}
       <option value="{{ result.sentence }}">{{ result.sentence }}</option>
       {% endfor %}
