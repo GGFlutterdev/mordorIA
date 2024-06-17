@@ -14,16 +14,18 @@ content %}
 </form>
 
 {% if sentence_results %}
-<select id="sentenceDropdown" onchange="showTokens(this)">
-  <option value="">Analyze a phrase</option>
-  {% for result in sentence_results %}
-  <option value="{{ result.sentence }}">{{ result.sentence }}</option>
-  {% endfor %}
-</select>
-
-<div id="tokenDisplay"></div>
-
-{% endif %}
+<div class="formatContainer">
+  <div class="select">
+    <select id="sentenceDropdown" onchange="showTokens(this)" class="format">
+      <option value="">Analyze a phrase</option>
+      {% for result in sentence_results %}
+      <option value="{{ result.sentence }}">{{ result.sentence }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div id="tokenDisplay"></div>
+  {% endif %}
+</div>
 
 <script>
   function showTokens(selectObject) {
