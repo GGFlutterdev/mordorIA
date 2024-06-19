@@ -1,198 +1,264 @@
-/* Reset some default styles */
-body,
-html {
+* {
   margin: 0;
-  padding: 16px;
-  /*font-family: 'MedievalFont', cursive; Usa il font fantasy */
-  font-family: Papyrus, fantasy; /*Usa il font fantasy */
-  background-color: #f7f3eb; /* Cambia il colore di sfondo */
-}
-
-/* Style for the content container */
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Aggiunge un'ombra sottile */
-}
-
-/* Style for h1 */
-h1 {
-  font-size: 36px; /* Aumenta la dimensione del font */
-  color: #5c5c5c; /* Cambia il colore del titolo */
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); /* Aggiunge un'ombra al testo */
-}
-
-/* Style for h2 */
-h2 {
-  font-size: 28px; /* Aumenta la dimensione del font */
-  color: #7b6c5d; /* Cambia il colore del titolo */
-  margin-top: 20px;
-  margin-bottom: 10px;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); /* Aggiunge un'ombra al testo */
-}
-
-/* Style for unordered lists */
-ul {
-  margin-bottom: 20px;
-}
-
-/* Style for list items */
-li {
-  font-size: 18px; /* Aumenta la dimensione del font */
-  color: #7b6c5d; /* Cambia il colore del testo */
-  margin-bottom: 5px;
-}
-
-/* Style for div elements */
-div {
-  margin-bottom: 20px;
-}
-
-/* Style for the form */
-/* Style for the form */
-form {
-  margin-top: 20px;
-  display: flex; /* Utilizza un layout flessibile */
-  justify-content: center; /* Allinea gli elementi al centro orizzontalmente */
-  align-items: center; /* Allinea gli elementi al centro verticalmente */
-}
-
-/* Style for the text input */
-input[type="text"] {
-  width: calc(70% - 10px); /* Larghezza dell'input text */
-  padding: 12px; /* Aumenta il padding */
-  margin-right: 10px; /* Aggiunge uno spazio tra l'input text e il pulsante submit */
-  border: 2px solid #7b6c5d; /* Cambia lo stile del bordo */
-  border-radius: 20px; /* Aumenta il raggio del bordo */
-  font-size: 20px; /* Aumenta la dimensione del font */
-  outline: none;
-  /*font-family: "MedievalFont", cursive; Usa il font fantasy */
-}
-
-/* Style for the submit button */
-input[type="submit"] {
-  width: calc(30% - 10px); /* Larghezza del pulsante submit */
-  padding: 15px; /* Aumenta il padding */
-  border: none;
-  border-radius: 30px; /* Aumenta il raggio del bordo */
-  background-color: #9c8065; /* Cambia il colore di sfondo */
-  color: #fff; /* Cambia il colore del testo */
-  font-size: 20px; /* Dimensione del font */
-  cursor: pointer;
-  outline: none;
-  text-transform: uppercase; /* Converti il testo in maiuscolo */
-  /* font-family: "MedievalFont", cursive; Usa il font fantasy */
-}
-
-/* Style for the placeholder text */
-input[type="text"]::placeholder {
-  color: #a9998d; /* Cambia il colore del testo del placeholder */
-  /* font-family: "MedievalFont", cursive; Usa il font fantasy */
-}
-
-/* Style for the input when it's focused */
-input[type="text"]:focus {
-  border-color: #9c8065; /* Cambia il colore del bordo al focus */
-}
-
-/* Style for the label */
-label {
-  display: block;
-  font-size: 20px; /* Aumenta la dimensione del font */
-  color: #5c5c5c; /* Cambia il colore del testo */
-  margin-bottom: 10px;
-}
-
-/* Navbar styles */
-.navbar {
-  background-color: #9c8065; /* Colore di sfondo della navbar */
-  padding: 0 20px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center; /* Allinea gli elementi verticalmente */
-}
-
-.navbar-menu ul {
-  list-style-type: none;
   padding: 0;
-  margin: 0;
+  font-family: Papyrus, fantasy;
 }
 
-.navbar-menu ul li {
-  display: inline;
-  margin-left: 20px; /* Aggiunge uno spazio tra i link */
+body {
+  background-color: #4f4f4f;
+  min-height: 100vh;
 }
 
-.navbar-menu ul li a {
-  color: #fff; /* Colore del testo del link */
+a {
   text-decoration: none;
-  font-size: 18px; /* Dimensione del testo del link */
-  transition: color 0.3s; /* Transizione del colore del link */
 }
 
-.navbar-menu ul li a:hover {
-  color: #c7d5e0; /* Colore del link al passaggio del mouse */
+header {
+  width: 100%;
+  height: 100vh;
+  background-image: url("../images/hut.png");
+  background-position: bottom;
+  background-size: cover;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
-#toggleTokens,
-#arrowTokens {
-  cursor: pointer;
-}
-
-#toggleStopwordsRemoved,
-#arrowStopwordsRemoved {
-  cursor: pointer;
-}
-
-#toggleStopwords,
-#arrowStopwords {
-  cursor: pointer;
-}
-
-#toggleLemmatization,
-#arrowLemmatization {
-  cursor: pointer;
-}
-
-.header {
+.header-content {
+  margin-bottom: 120px;
+  color: whitesmoke;
   text-align: center;
-  /*font-family: "MedievalFont", cursive; Aggiungi il font medievale desiderato */
-  font-family: Papyrus, fantasy; /*Usa il font fantasy */
-  font-size: 60px; /* Dimensione del font */
-  margin-bottom: 20px; /* Margine inferiore */
 }
 
-.sub-header {
-  text-align: center;
-  /* font-family: "MedievalFont", cursive; Aggiungi il font medievale desiderato */
-  font-size: 40px; /* Dimensione del font */
-  margin-bottom: 20px; /* Margine inferiore */
+.header-content h2 {
+  font-size: 4vmin;
 }
 
-select {
-  /* font-family: "MedievalFont", cursive; Usa il font fantasy */
-  font-size: 20px; /* Dimensione del font */
-  padding: 10px; /* Aggiungi spazio intorno al testo */
-  border-radius: 10px; /* Bordo arrotondato */
-  border: 2px solid #7b6c5d; /* Colore del bordo */
-  outline: none; /* Rimuovi l'outline al focus */
-  background-color: #fff; /* Colore di sfondo */
-  color: #7b6c5d; /* Colore del testo */
-  margin-top: 32px;
+.line {
+  width: 150px;
+  height: 4px;
+  background: orange;
+  margin: 10px auto;
 }
 
-/* Stile fantasy per le opzioni del dropdown */
-select option {
-  /* font-family: "MedievalFont", cursive;  Usa il font fantasy */
-  font-size: 20px; /* Dimensione del font */
-  background-color: #f7f3eb; /* Colore di sfondo */
-  color: #7b6c5d; /* Colore del testo */
-}
-
-.arrow {
+.btn {
+  padding: 15px 40px;
+  border: none;
+  outline: none;
+  color: #fff;
   cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 12px;
+}
+
+.btn::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #333;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+/*glow*/
+.btn::before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff3a00,
+    #ff7100,
+    orange,
+    #ffc300,
+    #ff3a00
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 600%;
+  z-index: -1;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  filter: blur(8px);
+  animation: glowing 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+  opacity: 0;
+}
+
+@keyframes glowing {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.btn:hover::before {
+  opacity: 1;
+}
+
+.btn:active::after {
+  background: transparent;
+}
+
+.btn:active {
+  color: #000;
+  font-weight: bold;
+}
+
+.formContainer {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 100px;
+}
+
+.formInnerContainer {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.entryarea {
+  position: relative;
+  height: 60px;
+  line-height: 80px;
+  flex: 0.5;
+}
+
+.btnContainer {
+  height: auto;
+  margin-top: 20px;
+  margin-left: 20px;
+  align-items: center;
+}
+
+.entryarea input {
+  position: absolute;
+  width: 600px;
+  outline: none;
+  /*font-size: 1.2em;*/
+  font-size: 1em;
+  padding: 0 30px;
+  line-height: 80px;
+  border-radius: 10px;
+  border: 2px solid white;
+  background: transparent;
+  transform: 0.1s ease;
+  z-index: 1111;
+}
+
+.labelline {
+  position: absolute;
+  font-size: 1.6em;
+  color: white;
+  padding: 0 25px;
+  margin: 0 20px;
+  background-color: #4f4f4f;
+  transition: 0.2 ease;
+}
+
+.entryarea input:focus,
+.entryarea input:valid {
+  color: orange;
+  border: 4px solid orange;
+}
+
+.entryarea input:focus + .labelline,
+.entryarea input:valid + .labelline {
+  color: orange;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 12px;
+  transform: translate(-12px, -12px) scale(0.88);
+  z-index: 1111;
+}
+
+.formatContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  margin-bottom: 5vh;
+}
+
+.formatContainer select {
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background-color: #333;
+  background-image: none;
+  color: white;
+  flex: 1;
+  padding: 0 0.5em;
+  color: white;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.formatContainer select::-ms-expand {
+  display: none;
+}
+
+.select {
+  position: relative;
+  display: flex;
+  width: 20em;
+  height: 3em;
+  line-height: 3;
+  background: #333;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 20vh;
+}
+
+.select::after {
+  content: "\25BC";
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  background-color: #262626;
+  color: white;
+  cursor: pointer;
+  pointer-events: none;
+  transition: 0.25s all ease;
+}
+
+.select:hover::after {
+  color: orange;
+}
+
+.resultContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.divCard {
+  background-color: #333;
+  width: 40em;
+  border-radius: 10px;
+  position: relative;
+  box-sizing: border-box;
+  padding: 10px;
+  color: orange;
+  margin: 20px 10px;
+}
+
+.divContent {
+  color: white;
 }
