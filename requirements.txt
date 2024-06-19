@@ -9,3 +9,4 @@ tensorflow
 tf-keras
 xlsxwriter
 sentence_transformers
+rouge-score

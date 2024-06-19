@@ -7,7 +7,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import sent_tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
 from Sentence import Sentence
-from ResultGeneration import sentenceExtractionFromRelevantBooks
+from ResultGeneration import sentenceExtractionFromRelevantBooks, giveAnswer
 from GenerateExcel import generateExcel
 
 import nltk
@@ -109,6 +109,8 @@ def submit():
 
             result_sentences = sentenceExtractionFromRelevantBooks(relevant_books, correct_text, lemmatized_text)
 
+            answer = giveAnswer(result_sentences)
+
             result = Sentence(
                 sentence= sentence_without_punctuation,
                 tokens= tokenized_text,
@@ -117,7 +119,8 @@ def submit():
                 lemmatized_text= lemmatized_text,
                 stopwords_removed= stopwords_removed,
                 relevant_books= relevant_books,
-                result_sentences= result_sentences
+                result_sentences= result_sentences,
+                answer= answer
             )
             
             # Aggiungi il risultato alla lista dei risultati delle frasi

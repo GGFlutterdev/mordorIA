@@ -42,8 +42,9 @@ content %}
       // Rimuovi tutti i contenuti precedenti da tokenDisplay
       tokenDisplay.innerHTML = '';
 
-      // Crea e aggiungi gli elementi per i toke
-      createAndAppendSection(tokenDisplay, 'Aswer', selectedResult.result_sentences, 'resultSentences');
+      // Crea e aggiungi gli elementi del risultato
+      createAndAppendSection(tokenDisplay, 'Answer', selectedResult.answer, 'answerContent');
+      createAndAppendSection(tokenDisplay, 'Most relevant sentences', selectedResult.result_sentences, 'resultSentencesContent');
       createAndAppendSection(tokenDisplay, 'Tokens', selectedResult.tokens, 'tokensContent');
       createAndAppendSection(tokenDisplay, 'Corrected Tokens', selectedResult.corrected_tokens, 'tokensCorrectedContent');
       createAndAppendSection(tokenDisplay, 'Stopwords Removed', selectedResult.stopwords_removed, 'stopwordsContent');
