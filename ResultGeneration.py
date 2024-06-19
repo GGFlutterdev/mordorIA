@@ -1,49 +1,71 @@
 from nltk.tokenize import sent_tokenize
 from flask import current_app
-from UserInput import remove_g_prefix
+from sentence_transformers import SentenceTransformer, util
+from nltk.corpus import stopwords
+from concurrent.futures import ThreadPoolExecutor
 import os
+import re
 
-def sentenceExtractionFromRelevantBooks(relevant_books, tokens):
+stop_words = set(stopwords.words('english'))
+special_chars_regex = re.compile(r'[^a-zA-Z0-9\s]')
+
+def sentenceExtractionFromRelevantBooks(relevant_books, question_tokens, question_most_relevant_tokens):
+    all_sentences_extracted = []
+    # Assicurati di essere nel contesto dell'applicazione
+    with current_app.app_context():
+        tokenizer = current_app.tokenizer
+
+        with ThreadPoolExecutor() as executor:
+            # Passa la funzione e i suoi parametri ai thread
+            futures = [executor.submit(sentrenceExtractionFromSingleBook, book, tokenizer, question_tokens, question_most_relevant_tokens) for book in relevant_books]
+
+            # Raccogli i risultati man mano che vengono completati
+            for future in futures:
+                all_sentences_extracted.extend(future.result())
+
+            # Classifica le frasi estratte in base alla similarità con i token
+            ranked_sentences = rank_sentences(question_tokens, all_sentences_extracted)
+            
+            # Restituisci le prime 10 frasi migliori se ce ne sono
+            print(ranked_sentences[:10] if ranked_sentences else ["Nessuna frase rilevante trovata."])
+            return ranked_sentences[:10] if ranked_sentences else ["Nessuna frase rilevante trovata."]
+
+def sentrenceExtractionFromSingleBook(book, tokenizer, question_tokens, question_most_relevant_tokens):
     sentencesExtracted = []
-    for book in relevant_books:
-        file_path = os.path.join('./corpora', book)
-        # Leggi il contenuto del file di testo
-        with open(file_path, 'r', encoding='utf-8') as file:
-            bookContent = file.read()
-            sentences = sent_tokenize(bookContent)
-            for sentence in sentences:
-                encoded_sentence = current_app.tokenizer.encode(sentence)
-                tokenized_sentence = encoded_sentence.tokens
-                tokenized_sentence = remove_g_prefix(tokenized_sentence)
-                for token in tokens:
-                    if token in sentence:
-                        sentencesExtracted.append(sentence)
-                        break
+    file_path = os.path.join('./corpora', book)
+    # Leggi il contenuto del file di testo
+    with open(file_path, 'r', encoding='utf-8') as file:
+        bookContent = file.read()
+        sentences = sent_tokenize(bookContent)
 
-    # Classifica le frasi estratte in base alla similarità con i token
-    ranked_sentences = rank_sentences(tokens, sentencesExtracted)
-    
-    # Restituisci le prime 5 frasi migliori se ce ne sono
-    return ranked_sentences[:5] if ranked_sentences else ["Nessuna frase rilevante trovata."]
+        for sentence in sentences:
+
+            sentence_no_special_chars = re.sub(special_chars_regex, '', sentence)
+            tokenized_sentence = tokenizer.tokenize(sentence_no_special_chars)
+
+            for token in question_most_relevant_tokens:
+                if token in tokenized_sentence and sentence not in sentencesExtracted:
+                    sentencesExtracted.append(sentence)
+                    break
+    return sentencesExtracted
 
 def rank_sentences(tokens, sentences):
+    if not sentences:
+        return ["Nessuna frase rilevante trovata."]
+
+    # Inizializza il modello di trasformatori per embedding di frasi
+    model = SentenceTransformer('all-MiniLM-L6-v2')
+    
     # Trasforma i token in una stringa
     token_string = ' '.join(tokens)
     
-    # Usa la matrice TF-IDF esistente e calcola la similarità coseno
-    question_tfidf = current_app.vectorizer.transform([token_string])
-    sentence_tfidfs = current_app.vectorizer.transform(sentences)
-    from sklearn.metrics.pairwise import cosine_similarity
+    # Ottieni l'embedding della stringa di token e delle frasi
+    question_embedding = model.encode(token_string, convert_to_tensor=True)
+    sentence_embeddings = model.encode(sentences, convert_to_tensor=True)
+    
+    # Calcola la similarità coseno tra l'embedding della domanda e gli embedding delle frasi
+    cosine_similarities = util.pytorch_cos_sim(question_embedding, sentence_embeddings)[0]
 
-    cosine_similarities = cosine_similarity(question_tfidf, sentence_tfidfs).flatten()
-    ranked_sentences = [sentence for _, sentence in sorted(zip(cosine_similarities, sentences), reverse=True)]
+    # Ordina le frasi in base alla similarità coseno
+    ranked_sentences = [sentence for _, sentence in sorted(zip(cosine_similarities, sentences), key=lambda x: x[0], reverse=True)]
     return ranked_sentences
-
-def extractedSencencesEvaluation():
-    return
-
-def subsetOfRelevantSentences():
-    return
-
-def excelOfWorkflowReport():
-    return

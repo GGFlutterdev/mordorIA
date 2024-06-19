@@ -14,7 +14,7 @@ def find_correct_words_by_edit_distance(words_separated_by_space):
         found = False
         min_distance = float('inf')
         closest_word = None
-        for token in current_app.tokenizer.get_vocab():
+        for token in current_app.vocabulary:
 
             distance = editdistance.eval(word, token)
             if distance == 0:
@@ -28,33 +28,23 @@ def find_correct_words_by_edit_distance(words_separated_by_space):
             correct_words.append(closest_word)
     return correct_words
 
-def identify_relevant_books(tokens, vectorizer, tfidf_matrix):
-    relevant_books = []
-    for token in tokens:
-        if token.lower() in vectorizer.vocabulary_:
-            token_key = token.lower()
-        elif token.lower() + 'ã' in vectorizer.vocabulary_:
-            token_key = token.lower() + 'ã'
-        else:
-            continue
-
-        for i in range(len(current_app.corpora_book_names)):
-            tfidf_value = tfidf_matrix.toarray()[i][vectorizer.vocabulary_[token_key]]
-            if(tfidf_value > 0.018):
-                relevant_books.append(current_app.corpora_book_names[i])
-    return list(set(relevant_books))
-
-def remove_g_prefix(strings):
-    modified_strings = []
-    for string in strings:
-        if string == 'Ġ' or string == 'Ċ' or string=='ł' or string=='Ä':
-            continue
-        if string.startswith('Ġ') and len(string) > 1:
-            modified_string = string[1:]
-            modified_strings.append(modified_string)
-        else:
-            modified_strings.append(string)
-    return modified_strings
+def identify_relevant_books(tokens):
+    relevant_books = set()  # Usa un set per evitare duplicati
+    # Pre-converti la matrice TF-IDF in array per l'accesso più veloce
+    tfidf_matrix_array = current_app.tfidf_matrix.toarray()
+    
+    # Converti tutti i token a minuscolo
+    lower_tokens = [token.lower() for token in tokens]
+    
+    for token in lower_tokens:
+        if token in current_app.vectorizer.vocabulary_:
+            token_index = current_app.vectorizer.vocabulary_[token]
+            for i in range(len(current_app.corpora_book_names)):
+                tfidf_value = tfidf_matrix_array[i][token_index]
+                if tfidf_value > 0.015:
+                    relevant_books.add(current_app.corpora_book_names[i])
+    
+    return list(relevant_books)
 
 def remove_punctuation(sentence):
     # Definisci un'espressione regolare per la punteggiatura di fine frase
