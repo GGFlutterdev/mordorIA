@@ -109,17 +109,18 @@ def submit():
 
             print(relevant_books)
 
-            sentenceExtractionFromRelevantBooks(relevant_books, correct_text, lemmatized_text)
+            result_sentences = sentenceExtractionFromRelevantBooks(relevant_books, correct_text, lemmatized_text)
 
             result = Sentence(
-                        sentence= sentence_without_punctuation,
-                        tokens= tokenized_text,
-                        corrected_tokens= correct_text,
-                        tokens_no_stopwords= cleaned_text_no_stopwords,
-                        lemmatized_text= lemmatized_text,
-                        stopwords_removed= stopwords_removed,
-                        relevant_books= relevant_books
-                    )
+                sentence= sentence_without_punctuation,
+                tokens= tokenized_text,
+                corrected_tokens= correct_text,
+                tokens_no_stopwords= cleaned_text_no_stopwords,
+                lemmatized_text= lemmatized_text,
+                stopwords_removed= stopwords_removed,
+                relevant_books= relevant_books,
+                result_sentences= result_sentences
+            )
             
             # Aggiungi il risultato alla lista dei risultati delle frasi
             sentence_results.append(result)

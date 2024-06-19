@@ -10,7 +10,7 @@ stop_words = set(stopwords.words('english'))
 special_chars_regex = re.compile(r'[^a-zA-Z0-9\s]')
 
 def sentenceExtractionFromRelevantBooks(relevant_books, question_tokens, question_most_relevant_tokens):
-    all_sentences_extracted = []
+    unique_sentences = set()
     # Assicurati di essere nel contesto dell'applicazione
     with current_app.app_context():
         tokenizer = current_app.tokenizer
@@ -20,11 +20,15 @@ def sentenceExtractionFromRelevantBooks(relevant_books, question_tokens, questio
             futures = [executor.submit(sentrenceExtractionFromSingleBook, book, tokenizer, question_tokens, question_most_relevant_tokens) for book in relevant_books]
 
             # Raccogli i risultati man mano che vengono completati
+            # Raccogli i risultati man mano che vengono completati
             for future in futures:
-                all_sentences_extracted.extend(future.result())
+                sentences = future.result()
+                for sentence in sentences:
+                    if sentence not in unique_sentences:
+                        unique_sentences.add(sentence)
 
             # Classifica le frasi estratte in base alla similarità con i token
-            ranked_sentences = rank_sentences(question_tokens, all_sentences_extracted)
+            ranked_sentences = rank_sentences(question_tokens, list(unique_sentences))
             
             # Restituisci le prime 10 frasi migliori se ce ne sono
             print(ranked_sentences[:10] if ranked_sentences else ["Nessuna frase rilevante trovata."])

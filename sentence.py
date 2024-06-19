@@ -1,5 +1,5 @@
 class Sentence:
-    def __init__(self, sentence, tokens, corrected_tokens, tokens_no_stopwords, lemmatized_text, stopwords_removed, relevant_books):
+    def __init__(self, sentence, tokens, corrected_tokens, tokens_no_stopwords, lemmatized_text, stopwords_removed, relevant_books, result_sentences):
         self.sentence = sentence
         self.tokens = tokens
         self.corrected_tokens = corrected_tokens
@@ -7,6 +7,7 @@ class Sentence:
         self.lemmatized_text = lemmatized_text
         self.stopwords_removed = stopwords_removed
         self.relevant_books = relevant_books
+        self.result_sentences = result_sentences
 
     def to_dict(self):
         return {
@@ -16,5 +17,6 @@ class Sentence:
             "tokens_no_stopwords": self.tokens_no_stopwords,
             "lemmatized_text": self.lemmatized_text,
             "stopwords_removed": self.stopwords_removed,
-            "relevant_books": self.relevant_books
+            "relevant_books": self.relevant_books,
+            "result_sentences": self.result_sentences
         }
