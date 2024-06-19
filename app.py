@@ -107,8 +107,6 @@ def submit():
             #Ottengo i libri rilevanti
             relevant_books = identify_relevant_books(lemmatized_text)
 
-            print(relevant_books)
-
             result_sentences = sentenceExtractionFromRelevantBooks(relevant_books, correct_text, lemmatized_text)
 
             result = Sentence(
