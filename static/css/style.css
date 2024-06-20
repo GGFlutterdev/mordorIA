@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: #F1E5CE;
+  background-color: #f1e5ce;
   min-height: 100vh;
 }
 
@@ -19,7 +19,7 @@ header {
   /*background-image: url("../images/hut.png");
   background-position: bottom;
   background-size: cover;*/
-  background-color: #F1E5CE;
+  background-color: #f1e5ce;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -39,7 +39,7 @@ header {
 .line {
   width: 150px;
   height: 4px;
-  background: #58180D;
+  background: #58180d;
   margin: 10px auto;
 }
 
@@ -60,7 +60,7 @@ header {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #C1A677;
+  background-color: #c1a677;
   left: 0;
   top: 0;
   border-radius: 10px;
@@ -165,19 +165,19 @@ header {
   color: black;
   padding: 0 25px;
   margin: 0 20px;
-  background-color: #F1E5CE;
+  background-color: #f1e5ce;
   transition: 0.2 ease;
 }
 
 .entryarea input:focus,
 .entryarea input:valid {
-  color: #58180D;
-  border: 4px solid #58180D;
+  color: #58180d;
+  border: 4px solid #58180d;
 }
 
 .entryarea input:focus + .labelline,
 .entryarea input:valid + .labelline {
-  color: #58180D;
+  color: #58180d;
   height: 30px;
   line-height: 30px;
   padding: 0 12px;
@@ -190,7 +190,7 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 50vh;
+  height: 80vh;
   margin-bottom: 5vh;
 }
 
@@ -199,7 +199,7 @@ header {
   outline: 0;
   box-shadow: none;
   border: 0 !important;
-  background-color: #C1A677;
+  background-color: #c1a677;
   background-image: none;
   color: black;
   flex: 1;
@@ -219,10 +219,10 @@ header {
   width: 20em;
   height: 3em;
   line-height: 3;
-  background: #C1A677;
+  background: #c1a677;
   overflow: hidden;
   border-radius: 10px;
-  margin-bottom: 20vh;
+  margin-bottom: 60vh;
 }
 
 .select::after {
@@ -231,15 +231,15 @@ header {
   top: 0;
   right: 0;
   padding: 0 1em;
-  background-color: #C1A677;
-  color: #58180D;
+  background-color: #c1a677;
+  color: #58180d;
   cursor: pointer;
   pointer-events: none;
   transition: 0.25s all ease;
 }
 
 .select:hover::after {
-  color: #58180D;
+  color: #58180d;
 }
 
 .resultContainer {
@@ -251,13 +251,13 @@ header {
 }
 
 .divCard {
-  background-color: #C1A677;
-  width: 55em;
+  background-color: #c1a677;
+  width: 70em;
   border-radius: 10px;
   position: relative;
   box-sizing: border-box;
   padding: 10px;
-  color: #58180D;
+  color: #58180d;
   margin: 20px 10px;
 }
 
