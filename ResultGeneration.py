@@ -4,6 +4,7 @@ from sentence_transformers import SentenceTransformer, util
 from nltk.corpus import stopwords
 from concurrent.futures import ThreadPoolExecutor
 from transformers import BartForConditionalGeneration, BartTokenizer
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
 from rouge_score import rouge_scorer, scoring
 import torch
 import os
@@ -13,9 +14,14 @@ stop_words = set(stopwords.words('english'))
 special_chars_regex = re.compile(r'[^a-zA-Z0-9\s]')
 
 # Inizializza il modello BART
-model_name = "facebook/bart-large-cnn"
-model = BartForConditionalGeneration.from_pretrained(model_name)
-tokenizer = BartTokenizer.from_pretrained(model_name)
+bart_model_name = "facebook/bart-large-cnn"
+bart_model = BartForConditionalGeneration.from_pretrained(bart_model_name)
+bart_tokenizer = BartTokenizer.from_pretrained(bart_model_name)
+
+# Inizializza il modello e il tokenizer GPT-2
+gpt_model_name = "gpt2"
+gpt_model = GPT2LMHeadModel.from_pretrained(gpt_model_name)
+gpt_tokenizer = GPT2Tokenizer.from_pretrained(gpt_model_name)
 
 def sentenceExtractionFromRelevantBooks(relevant_books, question_tokens, question_most_relevant_tokens):
     if len(relevant_books) == 0:
@@ -86,22 +92,39 @@ def rank_sentences(tokens, sentences):
 def giveAnswer(ranked_sentences):
     if len(ranked_sentences) == 0:
         return ["Impossible to generate an answer, sorry. Try to formulate your question in a better and more precise way."]
-    answer = generateAnswer(ranked_sentences)
-    calculate_rouge(answer, ranked_sentences)
+    bart_answer = generateAnswerWithBART(ranked_sentences)
+    gpt_answer = generateAnswerWithGPT(ranked_sentences)
+    
+    answer = "BART: " + bart_answer + "GPT-2: " + gpt_answer
+    #calculate_rouge(answer, ranked_sentences)
     return [answer]
 
-def generateAnswer(sentences):
+def generateAnswerWithBART(sentences):
     # Combina le frasi in un unico paragrafo
     combined_sentences = ' '.join(sentences)
     combined_sentences_no_special_chars = re.sub(special_chars_regex, '', combined_sentences)
     
     # Tokenizza il testo con il tokenizer di Hugging Face
-    inputs = tokenizer.encode(combined_sentences_no_special_chars, return_tensors='pt', max_length=1024, truncation=True)
+    inputs = bart_tokenizer.encode(combined_sentences_no_special_chars, return_tensors='pt', max_length=1024, truncation=True)
     
     # Genera il riassunto
-    summary_ids = model.generate(inputs, num_beams=4, min_length=30, max_length=200, early_stopping=True)
+    summary_ids = bart_model.generate(inputs, num_beams=4, min_length=30, max_length=200, early_stopping=True)
 
-    return tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+    return bart_tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+
+def generateAnswerWithGPT(sentences):
+    # Combina le frasi in un unico paragrafo
+    combined_sentences = ' '.join(sentences)
+    combined_sentences_no_special_chars = re.sub(special_chars_regex, '', combined_sentences)
+    
+    # Tokenizza il testo
+    inputs = gpt_tokenizer.encode(combined_sentences_no_special_chars, return_tensors='pt', max_length=1024, truncation=True)
+
+    # Genera il testo
+    outputs = gpt_model.generate(inputs, max_length=500, num_return_sequences=1, no_repeat_ngram_size=2, early_stopping=True)
+    generated_text = gpt_tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+    return generated_text
 
 def calculate_rouge(answer, ranked_sentences):
     answer = re.sub(special_chars_regex, '', answer)
