@@ -264,3 +264,28 @@ header {
 .divContent {
   color: black;
 }
+
+.datasheet-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+#myChartContainer {
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+#myChart {
+  width: 100% !important;
+  height: auto !important;
+}
+
+h3 {
+  margin-top: 20px;
+  font-weight: bold; 
+}
+ul {
+  list-style-type: none; 
+  padding: 8;
+}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for, redirect
 from nltk.tokenize import RegexpTokenizer
 from datasheet import datasheet_bp
 from UserInput import userinput_bp, find_correct_words_by_edit_distance, identify_relevant_books, remove_punctuation
@@ -7,7 +7,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import sent_tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
 from Sentence import Sentence
-from ResultGeneration import sentenceExtractionFromRelevantBooks, giveAnswer
+from ResultGeneration import sentenceExtractionFromRelevantBooks, generateAnswerWithBART, generateAnswerWithGPT
 from GenerateExcel import generateExcel
 
 import nltk
@@ -56,7 +56,7 @@ def train_token_learner():
             corpus = file.read()
             corpus_no_special_tokens = re.sub(special_chars_regex, '', corpus)
 
-            tokens = app.tokenizer.tokenize(corpus)
+            tokens = app.tokenizer.tokenize(corpus_no_special_tokens)
 
             app.vocabulary.update(tokens)
             app.corpora.append(corpus)  # Aggiungi il testo alla lista
@@ -109,7 +109,9 @@ def submit():
 
             result_sentences = sentenceExtractionFromRelevantBooks(relevant_books, correct_text, lemmatized_text)
 
-            answer = giveAnswer(result_sentences)
+            bart_answer = generateAnswerWithBART(result_sentences)
+
+            gpt2_answer = generateAnswerWithGPT(result_sentences)
 
             result = Sentence(
                 sentence= sentence_without_punctuation,
@@ -120,7 +122,8 @@ def submit():
                 stopwords_removed= stopwords_removed,
                 relevant_books= relevant_books,
                 result_sentences= result_sentences,
-                answer= answer
+                bart_answer= bart_answer,
+                gpt2_answer= gpt2_answer
             )
             
             # Aggiungi il risultato alla lista dei risultati delle frasi
@@ -133,6 +136,11 @@ def submit():
             sentence_results_dict = [result.to_dict() for result in sentence_results]
 
         return render_template('index.html', sentence_results=sentence_results_dict)
+
+
+@app.route('/seeDatasheet')
+def seeDatasheet():
+    return redirect(url_for('datasheet_bp.datasheet'))
 
 
 if __name__ == '__main__':

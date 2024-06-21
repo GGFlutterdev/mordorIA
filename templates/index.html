@@ -43,7 +43,8 @@ content %}
       tokenDisplay.innerHTML = '';
 
       // Crea e aggiungi gli elementi del risultato
-      createAndAppendSection(tokenDisplay, 'Answer', selectedResult.answer, 'answerContent');
+      createAndAppendSection(tokenDisplay, 'BART answer', selectedResult.bart_answer, 'bart_answerContent');
+      createAndAppendSection(tokenDisplay, 'GPT2 answer', selectedResult.gpt2_answer, 'gpt2_answerContent');
       createAndAppendSection(tokenDisplay, 'Most relevant sentences', selectedResult.result_sentences, 'resultSentencesContent');
       createAndAppendSection(tokenDisplay, 'Tokens', selectedResult.tokens, 'tokensContent');
       createAndAppendSection(tokenDisplay, 'Corrected Tokens', selectedResult.corrected_tokens, 'tokensCorrectedContent');

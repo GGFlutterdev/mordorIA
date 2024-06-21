@@ -89,16 +89,6 @@ def rank_sentences(tokens, sentences):
     ranked_sentences = [sentence for _, sentence in sorted(zip(cosine_similarities, sentences), key=lambda x: x[0], reverse=True)]
     return ranked_sentences
 
-def giveAnswer(ranked_sentences):
-    if len(ranked_sentences) == 0:
-        return ["Impossible to generate an answer, sorry. Try to formulate your question in a better and more precise way."]
-    bart_answer = generateAnswerWithBART(ranked_sentences)
-    gpt_answer = generateAnswerWithGPT(ranked_sentences)
-    
-    answer = "BART: " + bart_answer + "GPT-2: " + gpt_answer
-    #calculate_rouge(answer, ranked_sentences)
-    return [answer]
-
 def generateAnswerWithBART(sentences):
     # Combina le frasi in un unico paragrafo
     combined_sentences = ' '.join(sentences)
@@ -110,7 +100,7 @@ def generateAnswerWithBART(sentences):
     # Genera il riassunto
     summary_ids = bart_model.generate(inputs, num_beams=4, min_length=30, max_length=200, early_stopping=True)
 
-    return bart_tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+    return [bart_tokenizer.decode(summary_ids[0], skip_special_tokens=True)]
 
 def generateAnswerWithGPT(sentences):
     # Combina le frasi in un unico paragrafo
@@ -122,9 +112,7 @@ def generateAnswerWithGPT(sentences):
 
     # Genera il testo
     outputs = gpt_model.generate(inputs, max_length=500, num_return_sequences=1, no_repeat_ngram_size=2, early_stopping=True)
-    generated_text = gpt_tokenizer.decode(outputs[0], skip_special_tokens=True)
-
-    return generated_text
+    return [gpt_tokenizer.decode(outputs[0], skip_special_tokens=True)]
 
 def calculate_rouge(answer, ranked_sentences):
     answer = re.sub(special_chars_regex, '', answer)

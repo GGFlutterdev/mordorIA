@@ -1,32 +1,26 @@
 from flask import Blueprint, current_app, render_template
 from collections import Counter
 from math import log
-
-datasheet_bp = Blueprint('datasheet_bp', __name__)
-
+import re
 from collections import Counter
 from math import log
 
+datasheet_bp = Blueprint('datasheet_bp', __name__)
+
 def create_plot_data(tokenizer, corpora):
+    special_chars_regex = re.compile(r'[^a-zA-Z0-9\s]')
     # Inizializza le liste per i risultati complessivi
     all_tokens = []
-    all_cleaned_tokens = []
     
     # Elabora ciascun testo nella lista di corpora
     for corpus in corpora:
-        # Tokenizza il corpus di testo con il tokenizer
-        encoded_corpus = tokenizer.encode(corpus)
-        
-        # Estrai i token dal corpus tokenizzato
-        tokens = encoded_corpus.tokens
+
+        corpus_no_special_tokens = re.sub(special_chars_regex, '', corpus)
+        tokens = tokenizer.tokenize(corpus_no_special_tokens)
         all_tokens.extend(tokens)
-        
-        # Rimuovi il prefisso 'Ġ' dai token e aggiungi alla lista di token puliti
-        cleaned_tokens = [token.replace('Ġ', '') for token in tokens]
-        all_cleaned_tokens.extend(cleaned_tokens)
-    
+
     # Calcola la frequenza delle parole per l'intero corpus
-    word_freq = Counter(all_cleaned_tokens)
+    word_freq = Counter(all_tokens)
 
     # Ordina le parole per frequenza e ottieni i loro rank
     sorted_words = sorted(word_freq.items(), key=lambda x: x[1], reverse=True)
