@@ -115,11 +115,12 @@ def generateAnswerWithGPT(sentences):
     return [gpt_tokenizer.decode(outputs[0], skip_special_tokens=True)]
 
 def calculate_rouge(answer, ranked_sentences):
+    metrics=""
     answer = re.sub(special_chars_regex, '', answer)
     ranked_sentences = [re.sub(special_chars_regex, '', sentence) for sentence in ranked_sentences]
 
-    # Inizializza lo scorer per ROUGE-1, ROUGE-2 e ROUGE-3
-    scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rouge3'], use_stemmer=True)
+    # Inizializza lo scorer per ROUGE-1, ROUGE-2 e ROUGE-L
+    scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
     aggregator = scoring.BootstrapAggregator()
 
     for reference in ranked_sentences:
@@ -130,7 +131,8 @@ def calculate_rouge(answer, ranked_sentences):
 
     result = aggregator.aggregate()
     for key, value in result.items():
-        print(f"{key}:")
-        print(f"  Precision: {value.mid.precision:.4f}")
-        print(f"  Recall:    {value.mid.recall:.4f}")
-        print(f"  F1 score:  {value.mid.fmeasure:.4f}")
+        metrics = metrics + f"({key}):"
+        metrics = metrics + f"  Precision: {value.mid.precision:.4f}"
+        metrics = metrics + f"  Recall:    {value.mid.recall:.4f}"
+        metrics = metrics + f"  F1 score:  {value.mid.fmeasure:.4f} "
+    return [metrics]

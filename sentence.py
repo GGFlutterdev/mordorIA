@@ -1,5 +1,5 @@
 class Sentence:
-    def __init__(self, sentence, tokens, corrected_tokens, tokens_no_stopwords, lemmatized_text, stopwords_removed, relevant_books, result_sentences, bart_answer, gpt2_answer):
+    def __init__(self, sentence, tokens, corrected_tokens, tokens_no_stopwords, lemmatized_text, stopwords_removed, relevant_books, result_sentences, bart_answer, gpt2_answer, metrics):
         self.sentence = sentence
         self.tokens = tokens
         self.corrected_tokens = corrected_tokens
@@ -10,6 +10,7 @@ class Sentence:
         self.result_sentences = result_sentences
         self.bart_answer = bart_answer
         self.gpt2_answer = gpt2_answer
+        self.metrics = metrics
 
     def to_dict(self):
         return {
@@ -22,5 +23,6 @@ class Sentence:
             "relevant_books": self.relevant_books,
             "result_sentences": self.result_sentences,
             "bart_answer": self.bart_answer,
-            "gpt2_answer": self.gpt2_answer
+            "gpt2_answer": self.gpt2_answer,
+            "metrics": self.metrics
         }

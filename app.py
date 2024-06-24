@@ -7,7 +7,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import sent_tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
 from Sentence import Sentence
-from ResultGeneration import sentenceExtractionFromRelevantBooks, generateAnswerWithBART, generateAnswerWithGPT
+from ResultGeneration import sentenceExtractionFromRelevantBooks, generateAnswerWithBART, generateAnswerWithGPT, calculate_rouge
 from GenerateExcel import generateExcel
 
 import nltk
@@ -113,6 +113,8 @@ def submit():
 
             gpt2_answer = generateAnswerWithGPT(result_sentences)
 
+            metrics = calculate_rouge(bart_answer[0], result_sentences)
+
             result = Sentence(
                 sentence= sentence_without_punctuation,
                 tokens= tokenized_text,
@@ -123,7 +125,8 @@ def submit():
                 relevant_books= relevant_books,
                 result_sentences= result_sentences,
                 bart_answer= bart_answer,
-                gpt2_answer= gpt2_answer
+                gpt2_answer= gpt2_answer,
+                metrics= metrics
             )
             
             # Aggiungi il risultato alla lista dei risultati delle frasi
